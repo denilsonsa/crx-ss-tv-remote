@@ -1,8 +1,11 @@
-html, body, form, p, div {
+html, body {
+	font: sans-serif;
+	background: transparent;  /* Not transparent: https://stackoverflow.com/questions/27804315/ */
+}
+html, body, form, p, div, section {
 	display: block;
 	margin: 0;
 	padding: 0;
-	font: sans-serif;
 }
 
 #status_container {
@@ -11,6 +14,7 @@ html, body, form, p, div {
 	right: 0;
 	min-width: 1em;
 	min-height: 1em;
+	z-index: 10;
 }
 #status_container #status_icon {
 	position: absolute;
@@ -52,27 +56,63 @@ html, body, form, p, div {
 	color: red;
 }
 
-#layout_container table.tvremote {
+#layout_container {
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+}
+
+
+.tvremote.grid button {
+	border-radius: 4px;
+	color: black;
+	background: hsl(207, 25%, 81%);
+	border: 2px hsl(207, 25%, 81%) outset;
+	box-shadow: rgba(0,0,0,0.5) 0 1px 2px 2px;
+}
+.tvremote.grid button.color-rec {
+}
+
+
+#layout_container .tvremote.grid {
 	width: 100%;
 	height: 100%;
-	border-collapse: collapse;
-	border: 0;
-	margin: 0;
-	padding: 0;
-	table-layout: fixed;
-}
-#layout_container table.tvremote tr,
-#layout_container table.tvremote th,
-#layout_container table.tvremote td {
-	border: 0;
-	margin: 0;
-	padding: 0;
-}
-#layout_container table.tvremote td button {
-	display: block;
-	padding: 0;
-	margin: 1px;
-	width: calc(100% - 2px);
-	height: calc(100% - 2px);
+	padding: 2vmin;
 	box-sizing: border-box;
+	-webkit-app-region: drag;
+
+	/* https://stackoverflow.com/questions/27804315/ */
+	/* border-radius: 8px; */
+
+	background: linear-gradient(to bottom, #202020, #505050);
+}
+#layout_container .tvremote.grid button.cell {
+	padding: 0;
+	margin: 2vmin;
+	font-size: 1em;
+	overflow-wrap: break-word;
+	-webkit-app-region: no-drag;
+}
+
+
+.grid {
+	display: flex;
+	flex-direction: column;
+}
+.grid >     .row,
+.grid > * > .row {
+	flex: 1 1;
+
+	display: flex;
+	flex-direction: row;
+}
+.grid >     .row >     .cell,
+.grid > * > .row >     .cell,
+.grid >     .row > * > .cell,
+.grid > * > .row > * > .cell {
+	flex: 1 1;
+
+	display: block;
 }

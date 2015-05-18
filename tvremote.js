@@ -158,15 +158,16 @@ function send_multiple_keys_multiple_connections(keys, callback) {
 // Layout stuff.
 
 var LAYOUT = {
-	"layout": "table",
+	"layout": "grid",
+	"fontSize": "9vmin",
 	"rows": [
 		{
 			"cells": [
-				{"key": "KEY_MUTE"                                       , "label": "Mute" , "color": null},
-				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "Vol-4", "color": null},
-				{"key": "KEY_VOLDOWN"                                    , "label": "Vol-1", "color": null},
-				{"key": "KEY_VOLUP"                                      , "label": "Vol+1", "color": null},
-				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "Vol+4", "color": null},
+				{"key": "KEY_MUTE"                                       , "label": "Mute"  , "color": null},
+				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "Vol -4", "color": null},
+				{"key": "KEY_VOLDOWN"                                    , "label": "Vol -1", "color": null},
+				{"key": "KEY_VOLUP"                                      , "label": "Vol +1", "color": null},
+				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "Vol +4", "color": null},
 			]
 		},
 		{
@@ -180,11 +181,11 @@ var LAYOUT = {
 		},
 		{
 			"cells": [
-				{"key": "KEY_LEFT" , "label": "←"  , "color": null},
-				{"key": "KEY_ENTER", "label": "⏎"  , "color": null},
-				{"key": "KEY_RIGHT", "label": "→"  , "color": null},
-				{"key": "KEY_REC"  , "label": "Rec", "color": null},
-				{"key": "KEY_PLAY" , "label": "▶"  , "color": null},
+				{"key": "KEY_LEFT" , "label": "←", "color": null},
+				{"key": "KEY_ENTER", "label": "⏎", "color": null},
+				{"key": "KEY_RIGHT", "label": "→", "color": null},
+				{"key": "KEY_REC"  , "label": "⏺", "color": null},
+				{"key": "KEY_PLAY" , "label": "▶", "color": null},
 			]
 		},
 		{
@@ -200,44 +201,58 @@ var LAYOUT = {
 };
 
 
-function create_button_table_from_layout(layout) {
-	var table = document.createElement('table');
-	var tbody = document.createElement('tbody');
-	table.appendChild(tbody);
-	table.classList.add('tvremote');
+function create_button_grid_from_layout(layout) {
+	var section = document.createElement('section');
+	section.classList.add('tvremote', 'grid');
+
+	if (layout.fontSize) {
+		section.style.fontSize = layout.fontSize;
+	}
 
 	var rows = layout.rows.length;
 	var cols = 0;
-	var i, j, tr, td, cell, button;
+	var i;
 	for (i = 0; i < layout.rows.length; i++) {
-		tr = document.createElement('tr');
-		tr.style.height = (100 / rows) + 'vh';
-		tbody.appendChild(tr);
 		if (cols < layout.rows[i].cells.length) {
 			cols = layout.rows[i].cells.length;
 		}
+	}
+
+	var j, cell;
+	var divrow, span, button;
+	for (i = 0; i < layout.rows.length; i++) {
+		divrow = document.createElement('div');
+		divrow.classList.add('row');
+		section.appendChild(divrow);
+
 		for (j = 0; j < layout.rows[i].cells.length; j++) {
 			cell = layout.rows[i].cells[j];
 
-			td = document.createElement('td');
-			tr.appendChild(td);
-
 			if (cell.label === null) {
+				span = document.createElement('span');
+				span.classList.add('cell', 'empty');
+				divrow.appendChild(span);
 				continue;
 			}
 
 			button = document.createElement('button');
 			button.appendChild(document.createTextNode(cell.label));
 			button.dataset.key = cell.key;
-			td.appendChild(button);
+			button.classList.add('cell');
+			divrow.appendChild(button);
 
 			if (cell.color) {
-				td.classList.add(cell.color);
+				button.classList.add('color-' + cell.color);
 			}
+		}
+		for (; j < cols; j++) {
+			span = document.createElement('span');
+			span.classList.add('cell', 'empty');
+			divrow.appendChild(span);
 		}
 	}
 
-	return table;
+	return section;
 }
 
 
@@ -342,7 +357,7 @@ function init(tab_id, bgpage) {
 	var layout_container = document.getElementById('layout_container');
 	layout_container.addEventListener('click', tvremote_key_click_handler);
 
-	layout_container.appendChild(create_button_table_from_layout(LAYOUT));
+	layout_container.appendChild(create_button_grid_from_layout(LAYOUT));
 
 	RECV_CALLBACK = update_status_ui;
 	update_status_ui();

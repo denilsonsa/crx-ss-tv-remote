@@ -10,10 +10,11 @@ html, body, form, p, div, section {
 
 #status_container {
 	position: fixed;
-	top: 0;
-	right: 0;
+	top: 4px;
+	right: 4px;
 	min-width: 1em;
 	min-height: 1em;
+	font-size: 12px;
 	z-index: 10;
 }
 #status_container #status_icon {
@@ -43,17 +44,17 @@ html, body, form, p, div, section {
 	display: block;
 }
 
-#status_container.gray {
-	color: gray;
+#status_container.gray #status_icon {
+	color: hsl(0, 0%, 50%);
 }
-#status_container.yellow {
-	color: yellow;
+#status_container.yellow #status_icon {
+	color: hsl(60, 100%, 50%);
 }
-#status_container.green {
-	color: green;
+#status_container.green #status_icon {
+	color: hsl(120, 100%, 50%);
 }
-#status_container.red {
-	color: red;
+#status_container.red #status_icon {
+	color: hsl(0, 100%, 50%);
 }
 
 #layout_container {
@@ -66,13 +67,53 @@ html, body, form, p, div, section {
 
 
 .tvremote.grid button {
-	border-radius: 4px;
+	border: 0;
+	border-radius: 5px;
 	color: black;
-	background: hsl(207, 25%, 81%);
-	border: 2px hsl(207, 25%, 81%) outset;
-	box-shadow: rgba(0,0,0,0.5) 0 1px 2px 2px;
+	background: linear-gradient(to bottom, hsl(207, 25%, 87%), hsl(207, 25%, 75%));
+	box-shadow:
+		rgba(  0,  0,  0,0.5)  0px  1px 2px 2px,
+		rgba(  0,  0,  0,0.5) -1px -3px 3px 0px inset,
+		rgba(255,255,255,0.5)  1px  3px 3px 0px inset;
+
+	/* TODO: allow configuring if the outline will be shown or hidden. */
+	outline: none;
+}
+.tvremote.grid button:active {
+	box-shadow:
+		/* An extra outline has been added. */
+		rgba(  0,  0,  0,0.5)  0px  1px 2px 1px inset,
+		/* The others are copied from non-:active rule. */
+		rgba(  0,  0,  0,0.5)  0px  1px 2px 2px,
+		rgba(  0,  0,  0,0.5) -1px -3px 3px 0px inset,
+		rgba(255,255,255,0.5)  1px  3px 3px 0px inset;
 }
 .tvremote.grid button.color-rec {
+	color: hsl(0, 100%, 50%);
+}
+.tvremote.grid button.color-slateblue {
+	color: black;
+	background: linear-gradient(to bottom, hsl(230, 50%, 63%), hsl(230, 50%, 75%));
+}
+.tvremote.grid button.color-black {
+	color: white;
+	background: linear-gradient(to bottom, hsl(0, 0%, 25%), hsl(0, 0%, 13%));
+}
+.tvremote.grid button.color-red {
+	color: white;
+	background: linear-gradient(to bottom, hsl(0, 50%, 46%), hsl(0, 50%, 33%));
+}
+.tvremote.grid button.color-green {
+	color: white;
+	background: linear-gradient(to bottom, hsl(135, 50%, 46%), hsl(135, 50%, 33%));
+}
+.tvremote.grid button.color-yellow {
+	color: white;
+	background: linear-gradient(to bottom, hsl(45, 75%, 46%), hsl(45, 75%, 33%));
+}
+.tvremote.grid button.color-cyan {
+	color: white;
+	background: linear-gradient(to bottom, hsl(240, 50%, 46%), hsl(240, 50%, 33%));
 }
 
 
@@ -88,9 +129,11 @@ html, body, form, p, div, section {
 
 	background: linear-gradient(to bottom, #202020, #505050);
 }
-#layout_container .tvremote.grid button.cell {
+#layout_container .tvremote.grid .cell {
 	padding: 0;
 	margin: 2vmin;
+}
+#layout_container .tvremote.grid button.cell {
 	font-size: 1em;
 	overflow-wrap: break-word;
 	-webkit-app-region: no-drag;

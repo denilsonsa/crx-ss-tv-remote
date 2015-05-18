@@ -45,27 +45,16 @@ function arr_equal(a, b) {
 //////////////////////////////////////////////////////////////////////
 // Network-related functions.
 
-function SocketException(socketInfo, result, message) {
-	this.socketInfo = socketInfo;
-	this.result = result;
-	this.message = message;
-}
-
-SocketException.prototype.toString = function() {
-	return 'SocketException { result: ' + this.result + ', message: "' + this.message + '" }'
-}
-
-
-function easy_connect(ip, port, success_callback) {
+function easy_connect(ip, port, success_callback, failure_callback) {
 	chrome.sockets.tcp.create({
 		'bufferSize': 256
 	}, function(createInfo) {
 		chrome.sockets.tcp.connect(createInfo.socketId,
  		   ip, port, function(result) {
 			   if (result < 0 || chrome.runtime.lastError) {
-				   throw new SocketException(createInfo, result, chrome.runtime.lastError.message);
+				   if (failure_callback) failure_callback(createInfo, result, chrome.runtime.lastError.message);
 			   } else {
-				   success_callback(createInfo, result);
+				   if (success_callback) success_callback(createInfo, result);
 			   }
 		   });
 	});
@@ -78,11 +67,11 @@ function easy_send(socketId, data, success_callback) {
 	}
 	chrome.sockets.tcp.send(socketId, data, function(sendInfo) {
 		if (sendInfo.resultCode < 0 || chrome.runtime.lastError) {
-			throw new SocketException(null, sendInfo.resultCode, chrome.runtime.lastError);
+			if (failure_callback) failure_callback(sendInfo.resultCode, chrome.runtime.lastError.message);
 		} else if (sendInfo.resultCode == 0 && sendInfo.bytesSent != data.byteLength) {
-			throw new SocketException(null, sendInfo.resultCode, 'Sent only ' + sendInfo.bytesSent + ' of ' + data.length + ' bytes.');
+			if (failure_callback) failure_callback(sendInfo.resultCode, 'Sent only ' + sendInfo.bytesSent + ' of ' + data.length + ' bytes.');
 		} else {
-			success_callback();
+			if (success_callback) success_callback();
 		}
 	});
 }

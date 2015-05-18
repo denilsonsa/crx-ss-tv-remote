@@ -15,6 +15,14 @@ var STATUS = {
 };
 var RECV_CALLBACK = null;
 
+function STATUS_reset() {
+	STATUS.known_to_the_tv = null;
+	STATUS.access_granted = null;
+	if (RECV_CALLBACK) {
+		RECV_CALLBACK();
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////
 // Convenience functions, just to make the code easier to write without
@@ -46,6 +54,9 @@ function connect(callback) {
 			SELF_IP = socketInfo.localAddress;
 			// console.log('Connected. SOCKET_ID = ' + SOCKET_ID + ', SELF_IP = ' + SELF_IP);
 			if (callback) callback();
+		}, function(socketInfo, result, message) {
+			console.error('Connection error: ', result, message);
+			STATUS_reset();
 		});
 	});
 }
@@ -62,6 +73,9 @@ function send(data, callback) {
 	easy_send(SOCKET_ID, data, function() {
 		// console.log('Sent a packet.');
 		if (callback) callback();
+	}, function(result, message) {
+		console.error('Send error: ', result, message);
+		STATUS_reset();
 	});
 }
 
@@ -159,21 +173,30 @@ function send_multiple_keys_multiple_connections(keys, callback) {
 
 var LAYOUT = {
 	"layout": "grid",
-	"fontSize": "9vmin",
+	"fontSize": "8vmin",
 	"rows": [
 		{
 			"cells": [
+				{"key": "KEY_RED"   , "label": "A" , "color": "red"},
+				{"key": "KEY_GREEN" , "label": "B" , "color": "green"},
+				{"key": "KEY_YELLOW", "label": "C" , "color": "yellow"},
+				{"key": "KEY_CYAN"  , "label": "D" , "color": "cyan"},
+				{"key": ""          , "label": null, "color": null},
+			]
+		},
+		{
+			"cells": [
 				{"key": "KEY_MUTE"                                       , "label": "Mute"  , "color": null},
-				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "Vol -4", "color": null},
-				{"key": "KEY_VOLDOWN"                                    , "label": "Vol -1", "color": null},
-				{"key": "KEY_VOLUP"                                      , "label": "Vol +1", "color": null},
-				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "Vol +4", "color": null},
+				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "Vol -4", "color": "slateblue"},
+				{"key": "KEY_VOLDOWN"                                    , "label": "Vol -1", "color": "slateblue"},
+				{"key": "KEY_VOLUP"                                      , "label": "Vol +1", "color": "slateblue"},
+				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "Vol +4", "color": "slateblue"},
 			]
 		},
 		{
 			"cells": [
 				{"key": "KEY_TOOLS" , "label": "Tools" , "color": null},
-				{"key": "KEY_UP"    , "label": "↑"     , "color": null},
+				{"key": "KEY_UP"    , "label": "↑"     , "color": "black"},
 				{"key": "KEY_INFO"  , "label": "Info"  , "color": null},
 				{"key": "KEY_MENU"  , "label": "Menu"  , "color": null},
 				{"key": "KEY_SOURCE", "label": "Source", "color": null},
@@ -181,17 +204,17 @@ var LAYOUT = {
 		},
 		{
 			"cells": [
-				{"key": "KEY_LEFT" , "label": "←", "color": null},
-				{"key": "KEY_ENTER", "label": "⏎", "color": null},
-				{"key": "KEY_RIGHT", "label": "→", "color": null},
-				{"key": "KEY_REC"  , "label": "⏺", "color": null},
+				{"key": "KEY_LEFT" , "label": "←", "color": "black"},
+				{"key": "KEY_ENTER", "label": "⏎", "color": "black"},
+				{"key": "KEY_RIGHT", "label": "→", "color": "black"},
+				{"key": "KEY_REC"  , "label": "⏺", "color": "rec"},
 				{"key": "KEY_PLAY" , "label": "▶", "color": null},
 			]
 		},
 		{
 			"cells": [
 				{"key": "KEY_RETURN", "label": "↶ Return", "color": null},
-				{"key": "KEY_DOWN"  , "label": "↓"       , "color": null},
+				{"key": "KEY_DOWN"  , "label": "↓"       , "color": "black"},
 				{"key": "KEY_EXIT"  , "label": "Exit"    , "color": null},
 				{"key": "KEY_STOP"  , "label": "■"       , "color": null},
 				{"key": "KEY_PAUSE" , "label": "⏸"       , "color": null},
@@ -207,15 +230,6 @@ function create_button_grid_from_layout(layout) {
 
 	if (layout.fontSize) {
 		section.style.fontSize = layout.fontSize;
-	}
-
-	var rows = layout.rows.length;
-	var cols = 0;
-	var i;
-	for (i = 0; i < layout.rows.length; i++) {
-		if (cols < layout.rows[i].cells.length) {
-			cols = layout.rows[i].cells.length;
-		}
 	}
 
 	var j, cell;
@@ -244,11 +258,6 @@ function create_button_grid_from_layout(layout) {
 			if (cell.color) {
 				button.classList.add('color-' + cell.color);
 			}
-		}
-		for (; j < cols; j++) {
-			span = document.createElement('span');
-			span.classList.add('cell', 'empty');
-			divrow.appendChild(span);
 		}
 	}
 

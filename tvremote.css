@@ -7,6 +7,12 @@ html, body, form, p, div, section {
 	margin: 0;
 	padding: 0;
 }
+html {
+	/* https://stackoverflow.com/questions/27804315/ */
+	/* border-radius: 8px; */
+
+	background: linear-gradient(to bottom, #202020, #505050);
+}
 
 #status_container {
 	position: fixed;
@@ -66,7 +72,7 @@ html, body, form, p, div, section {
 }
 
 
-.tvremote.grid button {
+.tvremotebutton {
 	border: 0;
 	border-radius: 5px;
 	color: black;
@@ -79,7 +85,7 @@ html, body, form, p, div, section {
 	/* TODO: allow configuring if the outline will be shown or hidden. */
 	outline: none;
 }
-.tvremote.grid button:active {
+.tvremotebutton:active {
 	box-shadow:
 		/* An extra outline has been added. */
 		rgba(  0,  0,  0,0.5)  0px  1px 2px 1px inset,
@@ -88,30 +94,30 @@ html, body, form, p, div, section {
 		rgba(  0,  0,  0,0.5) -1px -3px 3px 0px inset,
 		rgba(255,255,255,0.5)  1px  3px 3px 0px inset;
 }
-.tvremote.grid button.color-rec {
+.tvremotebutton.color-rec {
 	color: hsl(0, 100%, 50%);
 }
-.tvremote.grid button.color-slateblue {
+.tvremotebutton.color-slateblue {
 	color: black;
 	background: linear-gradient(to bottom, hsl(230, 50%, 63%), hsl(230, 50%, 75%));
 }
-.tvremote.grid button.color-black {
+.tvremotebutton.color-black {
 	color: white;
 	background: linear-gradient(to bottom, hsl(0, 0%, 25%), hsl(0, 0%, 13%));
 }
-.tvremote.grid button.color-red {
+.tvremotebutton.color-red {
 	color: white;
 	background: linear-gradient(to bottom, hsl(0, 50%, 46%), hsl(0, 50%, 33%));
 }
-.tvremote.grid button.color-green {
+.tvremotebutton.color-green {
 	color: white;
 	background: linear-gradient(to bottom, hsl(135, 50%, 46%), hsl(135, 50%, 33%));
 }
-.tvremote.grid button.color-yellow {
+.tvremotebutton.color-yellow {
 	color: white;
 	background: linear-gradient(to bottom, hsl(45, 75%, 46%), hsl(45, 75%, 33%));
 }
-.tvremote.grid button.color-cyan {
+.tvremotebutton.color-cyan {
 	color: white;
 	background: linear-gradient(to bottom, hsl(240, 50%, 46%), hsl(240, 50%, 33%));
 }
@@ -123,22 +129,19 @@ html, body, form, p, div, section {
 	padding: 2vmin;
 	box-sizing: border-box;
 	-webkit-app-region: drag;
-
-	/* https://stackoverflow.com/questions/27804315/ */
-	/* border-radius: 8px; */
-
-	background: linear-gradient(to bottom, #202020, #505050);
 }
 #layout_container .tvremote.grid .cell {
 	padding: 0;
 	margin: 2vmin;
 }
 #layout_container .tvremote.grid button.cell {
-	font-size: 1em;
+	font-size: 1em;  /* Overriding the default button font size. */
 	overflow-wrap: break-word;
 	-webkit-app-region: no-drag;
 }
 
+
+/* -- Grid layout using flex. -- */
 
 .grid {
 	display: flex;

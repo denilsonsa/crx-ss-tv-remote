@@ -252,7 +252,7 @@ function create_button_grid_from_layout(layout) {
 			button = document.createElement('button');
 			button.appendChild(document.createTextNode(cell.label));
 			button.dataset.key = cell.key;
-			button.classList.add('cell');
+			button.classList.add('cell', 'tvremotebutton');
 			divrow.appendChild(button);
 
 			if (cell.color) {
@@ -286,37 +286,6 @@ function tvremote_key_click_handler(ev) {
 	}
 }
 
-function thebutton_click_handler(ev) {
-	send_key('KEY_VOLUP');
-}
-
-function multibutton_click_handler(ev) {
-	send_multiple_keys_single_connection([
-		'KEY_VOLUP',
-		'KEY_VOLUP',
-		'KEY_VOLUP',
-		'KEY_VOLUP',
-		'KEY_VOLUP',
-		'KEY_VOLUP',
-		'KEY_VOLUP',
-		'KEY_VOLUP',
-	]);
-}
-
-function experiment_click_handler() {
-	connect(function() {
-		var auth_data = build_auth_packet(SELF_IP, UNIQUE_ID, DISPLAY_NAME);
-		send(auth_data, function() {
-			var key_packet = build_key_packet('KEY_VOLUP');
-			send(key_packet, function() {
-				var key_packet = build_key_packet('KEY_VOLUP');
-				send(key_packet, function() {
-				});
-			});
-		});
-	});
-}
-
 function update_status_ui() {
 	var status_container = document.getElementById('status_container');
 	var status_label = document.getElementById('status_label');
@@ -341,28 +310,12 @@ function update_status_ui() {
 		status_container.classList.add('gray');
 		status_label.value = 'Not connected.';
 	}
-
-	// TODO: Delete these lines.
-	var known = document.getElementById('known');
-	var auth = document.getElementById('auth');
-	known.value = STATUS.known_to_the_tv;
-	auth.value = STATUS.access_granted;
 }
 
 //////////////////////////////////////////////////////////////////////
 // Initialization.
 
 function init(tab_id, bgpage) {
-	var thebutton = document.getElementById('thebutton');
-	thebutton.addEventListener('click', thebutton_click_handler);
-
-	var multibutton = document.getElementById('multibutton');
-	multibutton.addEventListener('click', multibutton_click_handler);
-
-	var experiment = document.getElementById('experiment');
-	experiment.addEventListener('click', experiment_click_handler);
-
-
 	var layout_container = document.getElementById('layout_container');
 	layout_container.addEventListener('click', tvremote_key_click_handler);
 
@@ -377,3 +330,6 @@ function init(tab_id, bgpage) {
 // This script is being included with the "defer" attribute, which means it
 // will only be executed after the document has been parsed.
 init();
+
+
+// TODO: Add a close button. And a settings button.

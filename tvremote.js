@@ -290,6 +290,13 @@ function close_window() {
 	window.close();
 }
 
+function open_options() {
+	document.getElementById('options_button').blur();
+	chrome.runtime.getBackgroundPage(function(background) {
+		background.open_options_window();
+	});
+}
+
 function update_status_ui() {
 	var status_container = document.getElementById('status_container');
 	var status_label = document.getElementById('status_label');
@@ -334,6 +341,10 @@ function init(tab_id, bgpage) {
 	// Close button.
 	var close_button = document.getElementById('close_button');
 	close_button.addEventListener('click', close_window);
+
+	// Options button.
+	var options_button = document.getElementById('options_button');
+	options_button.addEventListener('click', open_options);
 
 	// Handling TCP responses using the convoluted Chrome API.
 	chrome.sockets.tcp.onReceive.addListener(on_receive_handler);

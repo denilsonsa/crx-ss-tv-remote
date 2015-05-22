@@ -7,16 +7,33 @@ function log_if_error() {
 }
 
 function open_options_window() {
-	console.log('Open Options here.');
+	chrome
+	chrome.app.window.create('options.html', {
+		'id': 'optionswindow',  // An id will preserve the window size/position.
+		'innerBounds': {
+			'width': 300,
+			'height': 200
+		}
+	});
+}
+
+function open_tvremote_window() {
+	chrome.app.window.create('tvremote.html', {
+		'id': 'tvremotewindow',  // An id will preserve the window size/position.
+		//'alwaysOnTop': false,
+		//'visibleOnAllWorkspaces': false,
+		'frame': 'none',
+		'innerBounds': {
+			'width': 200,
+			'height': 200
+		}
+	});
 }
 
 // Having 'onclick' handler for each menu item would have been so much easier...
 chrome.contextMenus.onClicked.addListener(function(info) {
 	if (info.menuItemId == 'menuitem_options') {
 		open_options_window();
-	} else if (info.menuItemId == 'menuitem_close') {
-		console.log(chrome.app.window.current());
-		chrome.app.window.current().close();
 	}
 });
 
@@ -29,23 +46,14 @@ chrome.runtime.onInstalled.addListener(function(details) {
 		'contexts': ['all', 'launcher']
 	}, log_if_error);
 	// There is no "easy" way to get the window from where the context menu was clicked.
-	chrome.contextMenus.create({
-		'type': 'normal',
-		'title': 'Close',
-		'id': 'menuitem_close',
-		'contexts': ['all']
-	}, log_if_error);
+	// chrome.contextMenus.create({
+	// 	'type': 'normal',
+	// 	'title': 'Close',
+	// 	'id': 'menuitem_close',
+	// 	'contexts': ['all']
+	// }, log_if_error);
 });
 
 chrome.app.runtime.onLaunched.addListener(function() {
-	chrome.app.window.create('tvremote.html', {
-		'id': 'devwindow',  // An id will preserve the window size/position.
-		//'alwaysOnTop': false,
-		//'visibleOnAllWorkspaces': false,
-		'frame': 'none',
-		'innerBounds': {
-			'width': 200,
-			'height': 200
-		}
-	});
+	open_tvremote_window();
 });

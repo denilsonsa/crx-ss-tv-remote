@@ -95,8 +95,18 @@ html {
 #status_container #status_label {
 	display: none;
 
-	text-align: right;
+	overflow-wrap: break-word;
+
+	text-align: left;
 	line-height: 1em;
+	/* Explanation of this formula:
+	 * + viewport
+	 * - this element margin-right
+	 * - this elment horizontal padding
+	 * - #status_container right position
+	 * - 5px of margin to the left
+	 **/
+	max-width: calc(100vw - 1em - 2 * 1ex - (5px + 2 * 12px) - 5px);
 	margin: 0;
 	margin-top: 5px;
 	margin-right: 1em;

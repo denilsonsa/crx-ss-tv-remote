@@ -15,14 +15,20 @@
 var SOCKET_ID = null;
 var SELF_IP = null;
 var STATUS = {
-	'known_to_the_tv': null,
-	'access_granted': null
+	'known_to_the_tv': null,  // null, true, false.
+	'access_granted': null,  // null, true, false.
+	'error': null  // null, String
 };
 var RECV_CALLBACK = null;
 
-function STATUS_reset() {
+// error is the error message string.
+function STATUS_reset(error) {
 	STATUS.known_to_the_tv = null;
 	STATUS.access_granted = null;
+	STATUS.error = null;
+	if (error) {
+		STATUS.error = error;
+	}
 	if (RECV_CALLBACK) {
 		RECV_CALLBACK();
 	}
@@ -79,6 +85,8 @@ function easy_send(socketId, data, success_callback, failure_callback) {
 
 // Disconnects the current socket.
 // Does nothing it there is no active socket.
+// Disconnecting DOES NOT change STATUS. It is by design, to let the user see
+// the last known status.
 function disconnect(callback) {
 	if (SOCKET_ID !== null) {
 		// console.log('Disconnecting SOCKET_ID = ' + SOCKET_ID);
@@ -101,11 +109,12 @@ function connect(callback) {
 		easy_connect(TV_OPTS.tv_ip, TV_OPTS.tv_port, function(socketInfo, result) {
 			SOCKET_ID = socketInfo.socketId;
 			SELF_IP = socketInfo.localAddress;
+			STATUS.error = null;
 			// console.log('Connected. SOCKET_ID = ' + SOCKET_ID + ', SELF_IP = ' + SELF_IP);
 			if (callback) callback();
 		}, function(socketInfo, result, message) {
 			console.error('Connection error: ', result, message);
-			STATUS_reset();
+			STATUS_reset('Connection error: ' + message);
 		});
 	});
 }
@@ -121,10 +130,11 @@ function send(data, callback) {
 	// console.log('Sending a packet.');
 	easy_send(SOCKET_ID, data, function() {
 		// console.log('Sent a packet.');
+		STATUS.error = null;
 		if (callback) callback();
 	}, function(result, message) {
 		console.error('Send error: ', result, message);
-		STATUS_reset();
+		STATUS_reset('Send error: ' + message);
 	});
 }
 
@@ -166,6 +176,7 @@ function on_receive_error_handler(info) {
 		return;
 	}
 	// console.log('Error received: ', info.socketId, info.resultCode);
+	STATUS_reset('Error received: ' + info.resultCode);
 	disconnect();
 }
 
@@ -354,13 +365,24 @@ function open_options() {
 	});
 }
 
+// Inserts a ZWSP character in sensible places, to make the look better when
+// broken.
+// https://en.wikipedia.org/wiki/Zero-width_space
+function insert_ZWSP(s) {
+	return s.replace(/(:+)/g, '$1\u200B').replace(/(_+|\.+)/g, '\u200B$1');
+}
+
+
 function update_status_ui() {
 	var status_container = document.getElementById('status_container');
 	var status_label = document.getElementById('status_label');
 	// var status_icon = document.getElementById('status_icon');
 
 	status_container.classList.remove('gray', 'yellow', 'green', 'red');
-	if (STATUS.known_to_the_tv === true) {
+	if (STATUS.error) {
+		status_container.classList.add('red');
+		status_label.value = insert_ZWSP(STATUS.error);
+	} else if (STATUS.known_to_the_tv === true) {
 		if (STATUS.access_granted === true) {
 			status_container.classList.add('green');
 			status_label.value = 'Ready.';
@@ -411,6 +433,3 @@ function init(tab_id, bgpage) {
 // This script is being included with the "defer" attribute, which means it
 // will only be executed after the document has been parsed.
 init();
-
-
-// TODO: And a settings button.

@@ -1,5 +1,5 @@
 html, body {
-	font: sans-serif;
+	font-family: sans-serif;
 	background: transparent;  /* Not transparent: https://stackoverflow.com/questions/27804315/ */
 	margin: 0;
 	border: 0;
@@ -17,6 +17,7 @@ html {
 	/* border-radius: 8px; */
 
 	background: linear-gradient(to bottom, #202020, #505050);
+	color: white;
 }
 
 #close_button,
@@ -101,6 +102,7 @@ html {
 	padding: 1ex;
 	box-shadow: black 0 0 5px 0px;
 	background: white;
+	color: black;
 }
 #status_container:hover #status_label {
 	display: block;

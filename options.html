@@ -3,29 +3,44 @@
 <head>
 <meta charset="utf8">
 <title>SS TV Remote - Options</title>
+<link href="pure-0.6.0-min.css" rel="stylesheet">  <!-- http://purecss.io/ -->
 <link href="options.css" rel="stylesheet">
 </head>
 <body>
 
-<h1>Options!</h1>
+<form class="pure-form pure-form-aligned" novalidate>
 
-<form novalidate>
+	<fieldset>
+		<legend>Basic settings</legend>
+		<div class="pure-control-group">
+            <label for="tv_ip">IP address of the TV</label>
+			<input type="text" id="tv_ip" name="tv_ip" required pattern="(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}" placeholder="" title="IP address of your Samsung TV. It looks like this: '192.168.0.5'">
+		</div>
+	</fieldset>
+	<fieldset>
+		<legend>Advanced settings</legend>
 
-<input type="text" id="tv_ip" required pattern="(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}" placeholder="" title="IP address of your Samsung TV. It looks like this: '192.168.0.5'">
+		<div class="pure-control-group">
+            <label for="unique_id">Unique ID</label>
+			<!-- TODO: generate an unique random id. -->
+			<input type="text" id="unique_id" name="unique_id" placeholder="" title="This ID identifies the remote control.">
+		</div>
 
-<hr> <!-- This should be a fieldset. -->
-<!-- Advanced settings -->
-<input type="number" id="tv_port" min="1" max="65535" value="55000" placeholder="55000" title="Leave blank to use the default. There is no need to change this value. Really, just leave it blank.">
+		<div class="pure-control-group">
+            <label for="display_name">Display name</label>
+			<input type="text" id="display_name" name="display_name" placeholder="SS TV Remote" title="The name that will show up in your TV, at the list of authorized devices.">
+		</div>
 
-<!-- TODO: write title and placeholder -->
-<!-- TODO: generate an unique random id. -->
-<input type="text" id="unique_id" placeholder="" title="">
-<input type="text" id="display_name" placeholder="SS TV Remote" title="The name that will show up in your TV, at the list of authorized devices.">
+		<div class="pure-control-group">
+            <label for="tv_port">TCP port (don't change it!)</label>
+			<input type="number" id="tv_port" name="tv_port" min="1" max="65535" value="55000" placeholder="55000" title="Leave blank to use the default. There is no need to change this value. Really, just leave it blank.">
+		</div>
+	</fieldset>
 
-<hr>
-
-<input type="submit" value="Apply">
-<input type="button" value="Close">
+	<div class="pure-controls">
+		<input type="submit" value="Apply" class="pure-button pure-button-primary">
+		<input type="button" value="Close" class="pure-button">
+	</div>
 
 </form>
 

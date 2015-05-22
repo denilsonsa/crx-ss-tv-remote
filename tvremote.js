@@ -1,14 +1,19 @@
 'use strict';
 
-var TV_IP = '192.168.0.105';
-var PORT = 55000;
+// This global var must be injected by the background page when creating this
+// window. It will be read by the functions here, but will not be modified.
+//
+// var TV_OPTS = {
+// 	'tv_ip': null,  // String.
+// 	'tv_port': 55000,  // Integer.
+// 	'unique_id': 'crx-ss',  // String.
+// 	'display_name': 'SS TV Remote'  // String.
+// };
 
-var UNIQUE_ID = 'crx-ss';
-var DISPLAY_NAME = 'SS TV Remote';
 
-var SELF_IP = null;
-
+// Global vars with the current state.
 var SOCKET_ID = null;
+var SELF_IP = null;
 var STATUS = {
 	'known_to_the_tv': null,
 	'access_granted': null
@@ -92,8 +97,8 @@ function disconnect(callback) {
 // Automatically disconnects any previous socket.
 function connect(callback) {
 	disconnect(function() {
-		// console.log('Starting up connection to ', TV_IP, PORT);
-		easy_connect(TV_IP, PORT, function(socketInfo, result) {
+		// console.log('Starting up connection to ', TV_OPTS.tv_ip, TV_OPTS.tv_port);
+		easy_connect(TV_OPTS.tv_ip, TV_OPTS.tv_port, function(socketInfo, result) {
 			SOCKET_ID = socketInfo.socketId;
 			SELF_IP = socketInfo.localAddress;
 			// console.log('Connected. SOCKET_ID = ' + SOCKET_ID + ', SELF_IP = ' + SELF_IP);
@@ -170,7 +175,7 @@ function on_receive_error_handler(info) {
 
 function send_key(key_code, callback) {
 	connect(function() {
-		var auth_data = build_auth_packet(SELF_IP, UNIQUE_ID, DISPLAY_NAME);
+		var auth_data = build_auth_packet(SELF_IP, TV_OPTS.unique_id, TV_OPTS.display_name);
 		send(auth_data, function() {
 			var key_packet = build_key_packet(key_code);
 			send(key_packet, callback);
@@ -196,7 +201,7 @@ function send_multiple_keys_single_connection(keys, callback) {
 	}
 
 	connect(function() {
-		var auth_data = build_auth_packet(SELF_IP, UNIQUE_ID, DISPLAY_NAME);
+		var auth_data = build_auth_packet(SELF_IP, TV_OPTS.unique_id, TV_OPTS.display_name);
 		send(auth_data, function() {
 			_send_multiple_keys_recursive();
 		});

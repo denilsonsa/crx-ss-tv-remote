@@ -3,10 +3,31 @@
 <head>
 <meta charset="utf8">
 <title>SS TV Remote - Options</title>
+<link href="options.css" rel="stylesheet">
 </head>
 <body>
 
 <h1>Options!</h1>
+
+<form novalidate>
+
+<input type="text" id="tv_ip" required pattern="(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}" placeholder="" title="IP address of your Samsung TV. It looks like this: '192.168.0.5'">
+
+<hr> <!-- This should be a fieldset. -->
+<!-- Advanced settings -->
+<input type="number" id="tv_port" min="1" max="65535" value="55000" placeholder="55000" title="Leave blank to use the default. There is no need to change this value. Really, just leave it blank.">
+
+<!-- TODO: write title and placeholder -->
+<!-- TODO: generate an unique random id. -->
+<input type="text" id="unique_id" placeholder="" title="">
+<input type="text" id="display_name" placeholder="SS TV Remote" title="The name that will show up in your TV, at the list of authorized devices.">
+
+<hr>
+
+<input type="submit" value="Apply">
+<input type="button" value="Close">
+
+</form>
 
 </body>
 </html>

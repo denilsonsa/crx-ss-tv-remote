@@ -27,6 +27,7 @@
 	  }
   },
   "permissions": [
+	  "contextMenus",
 	  "storage"
   ]
 }

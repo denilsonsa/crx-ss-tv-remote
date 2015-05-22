@@ -1,5 +1,39 @@
 'use strict';
 
+function open_options_window() {
+	console.log('Open Options here.');
+}
+
+// Having 'onclick' handler for each menu item would have been so much easier...
+chrome.contextMenus.onClicked.addListener(function(info) {
+	if (info.menuItemId == 'menuitem_options') {
+		open_options_window();
+	}
+});
+
+chrome.runtime.onInstalled.addListener(function(details) {
+	chrome.contextMenus.create({
+		'type': 'normal',
+		'title': 'Options',
+		'id': 'menuitem_options',
+		'documentUrlPatterns': [ "chrome-extension://*/tvremote.html"],
+		'contexts': ['all', 'launcher']
+	}, function() {
+		if (chrome.runtime.lastError) {
+			console.error(chrome.runtime.lastError);
+		}
+	});
+	// There is no "easy" way to get the window from where the context menu was clicked.
+	// chrome.contextMenus.create({
+	// 	'type': 'normal',
+	// 	'title': 'Close',
+	// 	'id': 'menuitem_close',
+	// 	'contexts': ['all']
+	// }, function() {
+	// 	console.log(chrome.runtime.lastError);
+	// });
+});
+
 chrome.app.runtime.onLaunched.addListener(function() {
 	chrome.app.window.create('tvremote.html', {
 		'id': 'devwindow',  // An id will preserve the window size/position.

@@ -11,13 +11,21 @@
 </head>
 <body>
 
-<div id="status_container">
-	<output id="status_label"></output>
-	<div id="status_icon">⬤</div>
-</div>
-
 <div id="layout_container">
 </div>
+
+<div id="status_container">
+	<output id="status_label"></output>
+	<svg id="status_icon" viewBox="0 0 2 2">
+		<circle cx="1" cy="1" r="0.5"/>
+	</svg>
+</div>
+
+<button id="close_button">
+	<svg viewBox="-0.25 -0.25 1.5 1.5">
+		<path fill="none" stroke-width="0.25" d="M0,0 L1,1 M0,1 L1,0"/>
+	</svg>
+</button>
 
 </body>
 </html>

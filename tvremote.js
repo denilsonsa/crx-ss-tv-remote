@@ -186,11 +186,11 @@ var LAYOUT = {
 		},
 		{
 			"cells": [
-				{"key": "KEY_MUTE"                                       , "label": "Mute"  , "color": null},
-				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "Vol -4", "color": "slateblue"},
-				{"key": "KEY_VOLDOWN"                                    , "label": "Vol -1", "color": "slateblue"},
-				{"key": "KEY_VOLUP"                                      , "label": "Vol +1", "color": "slateblue"},
-				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "Vol +4", "color": "slateblue"},
+				{"key": "KEY_MUTE"                                       , "label": "🔇"   , "color": null},
+				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "🔉 ×4", "color": "slateblue"},
+				{"key": "KEY_VOLDOWN"                                    , "label": "🔉"   , "color": "slateblue"},
+				{"key": "KEY_VOLUP"                                      , "label": "🔊"   , "color": "slateblue"},
+				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "🔊 ×4", "color": "slateblue"},
 			]
 		},
 		{
@@ -232,7 +232,7 @@ function create_button_grid_from_layout(layout) {
 		section.style.fontSize = layout.fontSize;
 	}
 
-	var j, cell;
+	var i, j, cell;
 	var divrow, span, button;
 	for (i = 0; i < layout.rows.length; i++) {
 		divrow = document.createElement('div');
@@ -286,6 +286,10 @@ function tvremote_key_click_handler(ev) {
 	}
 }
 
+function close_window() {
+	window.close();
+}
+
 function update_status_ui() {
 	var status_container = document.getElementById('status_container');
 	var status_label = document.getElementById('status_label');
@@ -316,14 +320,22 @@ function update_status_ui() {
 // Initialization.
 
 function init(tab_id, bgpage) {
+	// Single click handler for all TV remote buttons.
 	var layout_container = document.getElementById('layout_container');
 	layout_container.addEventListener('click', tvremote_key_click_handler);
 
+	// Constructing the buttons.
 	layout_container.appendChild(create_button_grid_from_layout(LAYOUT));
 
+	// Status indicator.
 	RECV_CALLBACK = update_status_ui;
 	update_status_ui();
 
+	// Close button.
+	var close_button = document.getElementById('close_button');
+	close_button.addEventListener('click', close_window);
+
+	// Handling TCP responses using the convoluted Chrome API.
 	chrome.sockets.tcp.onReceive.addListener(on_receive_handler);
 }
 
@@ -332,4 +344,4 @@ function init(tab_id, bgpage) {
 init();
 
 
-// TODO: Add a close button. And a settings button.
+// TODO: And a settings button.

@@ -25,8 +25,52 @@ function STATUS_reset() {
 
 
 //////////////////////////////////////////////////////////////////////
+// Network-related functions, thin wrappers around Chrome API.
+
+// Creates a new socket and connects to it.
+// Chrome requires two API calls, which are encapsulated in here.
+function easy_connect(ip, port, success_callback, failure_callback) {
+	chrome.sockets.tcp.create({
+		// bufferSize should be a power of two.
+		// Given the extremely simple protocol implemented here, we can use a
+		// very small buffer size.
+		'bufferSize': 256
+	}, function(createInfo) {
+		chrome.sockets.tcp.connect(createInfo.socketId,
+ 		   ip, port, function(result) {
+			   if (result < 0 || chrome.runtime.lastError) {
+				   if (failure_callback) failure_callback(createInfo, result, chrome.runtime.lastError.message);
+			   } else {
+				   if (success_callback) success_callback(createInfo, result);
+			   }
+		   });
+	});
+}
+
+
+// Chrome API requires an ArrayBuffer. This wrapper function is more lenient
+// and accepts either an ArrayBuffer or a TypedArray (such as Uint8Array).
+function easy_send(socketId, data, success_callback, failure_callback) {
+	if (data.buffer) {  // If data is a TypedArray or DataView.
+		data = data.buffer;  // Get the ArrayBuffer behind it.
+	}
+	chrome.sockets.tcp.send(socketId, data, function(sendInfo) {
+		if (sendInfo.resultCode < 0 || chrome.runtime.lastError) {
+			if (failure_callback) failure_callback(sendInfo.resultCode, chrome.runtime.lastError.message);
+		} else if (sendInfo.resultCode == 0 && sendInfo.bytesSent != data.byteLength) {
+			if (failure_callback) failure_callback(sendInfo.resultCode, 'Sent only ' + sendInfo.bytesSent + ' of ' + data.length + ' bytes.');
+		} else {
+			if (success_callback) success_callback();
+		}
+	});
+}
+
+
+//////////////////////////////////////////////////////////////////////
 // Convenience functions, just to make the code easier to write without
 // worrying about details.
+//
+// For convenience, only a single socket is kept open.
 
 // Disconnects the current socket.
 // Does nothing it there is no active socket.
@@ -110,6 +154,14 @@ function on_receive_handler(info) {
 	|| auth_response == AuthResponse.DENIED) {
 		//disconnect();
 	}
+}
+
+function on_receive_error_handler(info) {
+	if (info.socketId != SOCKET_ID) {
+		return;
+	}
+	// console.log('Error received: ', info.socketId, info.resultCode);
+	disconnect();
 }
 
 
@@ -348,6 +400,7 @@ function init(tab_id, bgpage) {
 
 	// Handling TCP responses using the convoluted Chrome API.
 	chrome.sockets.tcp.onReceive.addListener(on_receive_handler);
+	chrome.sockets.tcp.onReceive.addListener(on_receive_error_handler);
 }
 
 // This script is being included with the "defer" attribute, which means it

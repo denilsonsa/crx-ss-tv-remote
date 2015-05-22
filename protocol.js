@@ -1,10 +1,50 @@
 'use strict';
 
+//////////////////////////////////////////////////////////////////////
+// Working with Strings and Arrays and ArrayBuffers.
+
+// Receives a plain string. Should only contain ASCII characters.
+// Returns Uint8Array containing the string length in the first two bytes
+// followed by the string.
+function pack_string(s) {
+	var bytes = (new TextEncoder('utf-8')).encode(s);  // Converting the string to Uint8Array.
+	return pack_array(bytes);
+}
+
+// Receives Uint8Array.
+// Returns Uint8Array containing the original array length in the first two
+// bytes followed by the original array.
+function pack_array(bytes) {
+	var len = bytes.length;
+
+	var ret = new Uint8Array(len + 2);  // Creating the result array.
+	ret.set(bytes, 2);  // Copying the original array to ret, offset=2.
+
+	var dv = new DataView(ret.buffer);
+	dv.setUint16(0, len, true);  // Copying 'len' to the first two bytes, little_endian=true.
+
+	return ret;
+}
+
+
+// Returns true if a elements are equal to b elements.
+// a and be should be Arrays or TypedArrays.
+function arr_equal(a, b) {
+	if (a.length != b.length) {
+		return false;
+	}
+	for (var i = 0; i < a.length; i++) {
+		if (a[i] !== b[i]) {
+			return false;
+		}
+	}
+	return true;
+}
+
 
 //////////////////////////////////////////////////////////////////////
 // Low-level protocol-related stuff.
 // Packing and unpacking protocol data.
-
 
 var MAGIC_STRING = 'iphone.iapp.samsung';
 var PACKED_MAGIC_STRING = pack_string(MAGIC_STRING);
@@ -125,6 +165,7 @@ function understand_auth_response(response) {
 }
 
 
+// Returns Uint8Array.
 function build_key_packet(key_code) {
 	// btoa is base64 encoder.
 	var kc = pack_string(btoa(key_code));

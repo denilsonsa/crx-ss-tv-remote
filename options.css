@@ -5,6 +5,7 @@ html, body {
 	padding: 0;
 	background: white;
 	color: black;
+	font-size: 12px;
 }
 html {
 	overflow: auto;
@@ -13,4 +14,40 @@ html {
 }
 body {
 	padding: 5px;
+}
+
+.pure-form-aligned input[type="text"],
+.pure-form-aligned input[type="password"],
+.pure-form-aligned input[type="email"],
+.pure-form-aligned input[type="url"],
+.pure-form-aligned input[type="date"],
+.pure-form-aligned input[type="month"],
+.pure-form-aligned input[type="time"],
+.pure-form-aligned input[type="datetime"],
+.pure-form-aligned input[type="datetime-local"],
+.pure-form-aligned input[type="week"],
+.pure-form-aligned input[type="number"],
+.pure-form-aligned input[type="search"],
+.pure-form-aligned input[type="tel"],
+.pure-form-aligned input[type="color"],
+.pure-form-aligned select,
+.pure-form-aligned textarea {
+	width: 12em;
+}
+
+.pure-form fieldset.collapsible.collapsed > *:not(legend) {
+	/* Note: elements  */
+	display: none;
+}
+.pure-form fieldset.collapsible > legend {
+	cursor: pointer;
+}
+.pure-form fieldset.collapsible > legend:before {
+	content: "▼";
+
+	display: inline-block;
+	width: 1em;
+}
+.pure-form fieldset.collapsible.collapsed > legend:before {
+	content: "▶";
 }

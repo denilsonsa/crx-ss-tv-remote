@@ -27,8 +27,8 @@ function open_options_window() {
 	chrome.app.window.create('options.html', {
 		'id': 'optionswindow',  // An id will preserve the window size/position.
 		'innerBounds': {
-			'width': 400,
-			'height': 360
+			'width': 350,
+			'height': 250
 		}
 	});
 }

@@ -6,6 +6,7 @@
 <!-- Slightly modified from http://purecss.io/ , to see the changes, compare it against commit b9fff81 (or against http://yui.yahooapis.com/pure/0.6.0/pure.css) -->
 <link href="pure-0.6.0.css" rel="stylesheet">
 <link href="options.css" rel="stylesheet">
+<script src="collapsible-fieldset.js" defer></script>
 </head>
 <body>
 
@@ -20,22 +21,22 @@
 		</div>
 	</fieldset>
 
-	<fieldset>
+	<fieldset class="collapsible collapsed">
 		<legend>Advanced settings</legend>
+
+		<div class="pure-control-group" title="The name that will show up in your TV, at the list of authorized devices.">
+            <label for="display_name">Display name</label>
+			<input type="text" id="display_name" name="display_name" placeholder="SS TV Remote">
+		</div>
 
 		<div class="pure-control-group" title="This ID identifies the remote control.">
             <label for="unique_id">Unique ID</label>
 			<!-- TODO: generate an unique random id. -->
 			<input type="text" id="unique_id" name="unique_id" placeholder="">
 		</div>
-
-		<div class="pure-control-group" title="The name that will show up in your TV, at the list of authorized devices.">
-            <label for="display_name">Display name</label>
-			<input type="text" id="display_name" name="display_name" placeholder="SS TV Remote">
-		</div>
 	</fieldset>
 
-	<fieldset>
+	<fieldset class="collapsible collapsed">
 		<legend title="Should only be changed if you know what you are doing.">Under-the-hood settings</legend>
 
 		<div class="pure-control-group" title="Leave blank to use the default. There is no need to change this value. Really, just leave it blank.">
@@ -43,11 +44,12 @@
 			<input type="number" id="tv_port" name="tv_port" min="1" max="65535" value="55000" placeholder="55000">
 		</div>
 
-		<div class="pure-control-group">
-			<label>Sequential keys behavior</label>
-			<label for="single_connection" class="pure-checkbox" title="Controls the behavior when a single button corresponds to multiple sequential key presses (e.g. a button to raise the volume 4 times): send each key in its own connection (more reliable, possibly slower); or send all keys through a single connection (less reliable, possibly faster)">
-				<input type="checkbox" id="single_connection" name="single_connection"> Send sequential keys presses through a single connection
-			</label>
+		<div class="pure-control-group" title="Behavior when a single button corresponds to multiple key presses (e.g. a button to raise the volume 4 times): send each key in its own connection (more reliable, possibly slower); or send all keys through a single connection (less reliable, possibly faster)">
+			<label for="macro_behavior">Macro behavior</label>
+			<select id="macro_behavior" name="macro_behavior">
+				<option value="multiple_connections">Multiple connections (one for each key)</option>
+				<option value="single_connection">Single connection</option>
+			</select>
 		</div>
 
 	</fieldset>

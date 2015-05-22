@@ -1066,7 +1066,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 .pure-form-aligned .pure-control-group {
     margin-bottom: 0.5em;
 }
-.pure-form-aligned .pure-control-group label:not(.pure-checkbox):not(.pure-radio) {
+.pure-form-aligned .pure-control-group label {
     text-align: right;
     display: inline-block;
     vertical-align: middle;
@@ -1075,10 +1075,6 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 .pure-form-aligned .pure-controls {
     margin: 1.5em 0 0 11em;
-}
-.pure-form-aligned .pure-control-group label.pure-checkbox,
-.pure-form-aligned .pure-control-group label.pure-radio {
-    max-width: calc(100% - 11em);
 }
 
 /* Rounded Inputs */
@@ -1161,7 +1157,16 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     font-size: 0.875em;
 }
 
-@media only screen and (max-width : 360px) {  /* Changed from max-width : 480px */
+/* Changed from max-width : 480px.
+ * This value is calculated from:
+ * + html/body margin and padding (2 * 5px)
+ * + .pure-form-aligned label width (10em)
+ * + .pure-form-aligned label horizontal margin (1em)
+ * + .pure-form-aligned input width (12em)
+ * + scrollbar width (around 18px, rounded up to 20px)
+ * = 2*5 + (10+1+12)*12 + 20
+ **/
+@media only screen and (max-width : 306px) {
     .pure-form button[type="submit"] {
         margin: 0.7em 0 0;
     }
@@ -1204,7 +1209,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
         margin-bottom: 0;
     }
 
-    .pure-form-aligned .pure-control-group label:not(.pure-checkbox):not(.pure-radio) {
+    .pure-form-aligned .pure-control-group label {
         margin-bottom: 0.3em;
         text-align: left;
         display: block;
@@ -1213,10 +1218,6 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 
     .pure-form-aligned .pure-controls {
         margin: 1.5em 0 0 0;
-    }
-    .pure-form-aligned .pure-control-group label.pure-checkbox,
-    .pure-form-aligned .pure-control-group label.pure-radio {
-        max-width: none;
     }
 
     /* NOTE: pure-help-inline is deprecated. Use .pure-form-message-inline instead. */

@@ -1065,7 +1065,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 .pure-form-aligned .pure-control-group {
     margin-bottom: 0.5em;
 }
-.pure-form-aligned .pure-control-group label {
+.pure-form-aligned .pure-control-group label:not(.pure-checkbox):not(.pure-radio) {
     text-align: right;
     display: inline-block;
     vertical-align: middle;
@@ -1074,6 +1074,10 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 }
 .pure-form-aligned .pure-controls {
     margin: 1.5em 0 0 11em;
+}
+.pure-form-aligned .pure-control-group label.pure-checkbox,
+.pure-form-aligned .pure-control-group label.pure-radio {
+    max-width: calc(100% - 11em);
 }
 
 /* Rounded Inputs */
@@ -1199,7 +1203,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
         margin-bottom: 0;
     }
 
-    .pure-form-aligned .pure-control-group label {
+    .pure-form-aligned .pure-control-group label:not(.pure-checkbox):not(.pure-radio) {
         margin-bottom: 0.3em;
         text-align: left;
         display: block;
@@ -1208,6 +1212,10 @@ since IE8 won't execute CSS that contains a CSS3 selector.
 
     .pure-form-aligned .pure-controls {
         margin: 1.5em 0 0 0;
+    }
+    .pure-form-aligned .pure-control-group label.pure-checkbox,
+    .pure-form-aligned .pure-control-group label.pure-radio {
+        max-width: none;
     }
 
     /* NOTE: pure-help-inline is deprecated. Use .pure-form-message-inline instead. */

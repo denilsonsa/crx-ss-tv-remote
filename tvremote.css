@@ -1,3 +1,4 @@
+@charset "utf-8";
 html, body {
 	font-family: sans-serif;
 	background: transparent;  /* Not transparent: https://stackoverflow.com/questions/27804315/ */

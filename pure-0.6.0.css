@@ -1156,7 +1156,7 @@ since IE8 won't execute CSS that contains a CSS3 selector.
     font-size: 0.875em;
 }
 
-@media only screen and (max-width : 480px) {
+@media only screen and (max-width : 360px) {  /* Changed from max-width : 480px */
     .pure-form button[type="submit"] {
         margin: 0.7em 0 0;
     }

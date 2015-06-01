@@ -151,9 +151,6 @@ html {
 		rgba(  0,  0,  0,0.5)  0px  1px 2px 2px,
 		rgba(  0,  0,  0,0.5) -1px -3px 3px 0px inset,
 		rgba(255,255,255,0.5)  1px  3px 3px 0px inset;
-
-	/* TODO: allow configuring if the outline will be shown or hidden. */
-	outline: none;
 }
 .tvremotebutton:active {
 	box-shadow:
@@ -163,6 +160,9 @@ html {
 		rgba(  0,  0,  0,0.5)  0px  1px 2px 2px,
 		rgba(  0,  0,  0,0.5) -1px -3px 3px 0px inset,
 		rgba(255,255,255,0.5)  1px  3px 3px 0px inset;
+}
+.dont_highlight_focused .tvremotebutton {
+	outline: none;
 }
 .tvremotebutton.color-white {
 	color: black;

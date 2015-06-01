@@ -393,10 +393,20 @@ function update_status_ui() {
 //////////////////////////////////////////////////////////////////////
 // Initialization.
 
+function set_class_dont_highlight_focused() {
+	if (TV_OPTS.highlight_focused) {
+		document.body.classList.remove('dont_highlight_focused');
+	} else {
+		document.body.classList.add('dont_highlight_focused');
+	}
+}
+
 function init(tab_id, bgpage) {
 	// Single click handler for all TV remote buttons.
 	var layout_container = document.getElementById('layout_container');
 	layout_container.addEventListener('click', tvremote_key_click_handler);
+
+	set_class_dont_highlight_focused();
 
 	build_layout(LAYOUT);
 

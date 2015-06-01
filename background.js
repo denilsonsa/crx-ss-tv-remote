@@ -48,6 +48,7 @@ function complete_options(input_options) {
 		'unique_id': null,
 		'display_name': 'SS TV Remote',
 		'macro_behavior': 'multiple_connections',
+		'highlight_focused': false,
 		'always_on_top': false,
 		'visible_on_all_workspaces': false,
 		'layout_id': 'samsung5000'
@@ -67,6 +68,7 @@ function complete_options(input_options) {
 	}
 
 	// Converting to Boolean.
+	ret.highlight_focused = !! ret.highlight_focused;
 	ret.always_on_top = !! ret.always_on_top;
 	ret.visible_on_all_workspaces = !! ret.visible_on_all_workspaces;
 
@@ -157,6 +159,7 @@ function update_tvremote_window_options() {
 				// Disabled because: http://crbug.com/495039
 				//win.setVisibleOnAllWorkspaces(options.visible_on_all_workspaces);
 				win.contentWindow.TV_OPTS = options;
+				win.contentWindow.set_class_dont_highlight_focused();
 
 				if (should_rebuild_layout) {
 					var LAYOUT = LAYOUT_BY_ID[options.layout_id];

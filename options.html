@@ -29,13 +29,13 @@
 
 		<div class="pure-controls">
 			<label for="always_on_top" class="pure-checkbox" title="Keep the main TV remote window above all other windows?">
-				<input id="always_on_top" type="checkbox"> Window always-on-top
+				<input id="always_on_top" name="always_on_top" type="checkbox"> Window always-on-top
 			</label>
 		</div>
 
 		<div class="pure-controls">
 			<label for="visible_on_all_workspaces" class="pure-checkbox" title="Make the main TV remote window visible on all workspaces, also known as a &quot;sticky&quot; window." id="can_set_visible_on_all_workspaces">
-				<input id="visible_on_all_workspaces" type="checkbox"> Visible on all workspaces
+				<input id="visible_on_all_workspaces" name="visible_on_all_workspaces" type="checkbox"> Visible on all workspaces
 			</label>
 		</div>
 	</fieldset>
@@ -51,6 +51,12 @@
 		<div class="pure-control-group" title="This ID identifies the remote control.">
 			<label for="unique_id">Unique ID</label>
 			<input type="text" id="unique_id" name="unique_id" placeholder="">
+		</div>
+
+		<div class="pure-controls">
+			<label for="highlight_focused" class="pure-checkbox" title="Showing the outline around focused button improves accessibility and allows keyboard navigation. However, for a mouse-only or touch-only interface, it looks uglier.">
+				<input id="highlight_focused" name="highlight_focused" type="checkbox"> Show outline around focused button
+			</label>
 		</div>
 	</fieldset>
 

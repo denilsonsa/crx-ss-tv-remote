@@ -11,6 +11,7 @@ function set_form_values_from_options(options) {
 	form.layout_id.value = options.layout_id;
 	form.display_name.value = options.display_name;
 	form.macro_behavior.value = options.macro_behavior;
+	form.highlight_focused.checked = options.highlight_focused;
 	form.always_on_top.checked = options.always_on_top;
 	form.visible_on_all_workspaces.checked = options.visible_on_all_workspaces;
 
@@ -61,6 +62,7 @@ function form_submit_handler(ev) {
 		'layout_id': form.layout_id.value,
 		'display_name': form.display_name.value,
 		'macro_behavior': form.macro_behavior.value,
+		'highlight_focused': form.highlight_focused.checked,
 		'always_on_top': form.always_on_top.checked,
 		'visible_on_all_workspaces': form.visible_on_all_workspaces.checked
 	}

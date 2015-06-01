@@ -147,7 +147,7 @@ function on_receive_handler(info) {
 
 	var response = unpack_auth_response(info.data);
 	var auth_response = understand_auth_response(response);
-	console.log('Received: ', info.socketId, response.header, response.magic_string, response.payload, auth_response);
+	// console.log('Received: ', info.socketId, response.header, response.magic_string, response.payload, auth_response);
 
 	if (response.header >= 0 && response.header <= 2) {
 		STATUS.connection_successful = true;

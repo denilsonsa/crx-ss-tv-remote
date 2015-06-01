@@ -7,10 +7,11 @@
 <link href="pure-0.6.0.css" rel="stylesheet">
 <link href="options.css" rel="stylesheet">
 <script src="collapsible-fieldset.js" defer></script>
+<script src="options.js" defer></script>
 </head>
 <body>
 
-<form class="pure-form pure-form-aligned" novalidate>
+<form id="options_form" class="pure-form pure-form-aligned" novalidate>
 
 	<fieldset>
 		<legend>Basic settings</legend>
@@ -31,7 +32,6 @@
 
 		<div class="pure-control-group" title="This ID identifies the remote control.">
             <label for="unique_id">Unique ID</label>
-			<!-- TODO: generate an unique random id. -->
 			<input type="text" id="unique_id" name="unique_id" placeholder="">
 		</div>
 	</fieldset>
@@ -41,7 +41,7 @@
 
 		<div class="pure-control-group" title="Leave blank to use the default. There is no need to change this value. Really, just leave it blank.">
             <label for="tv_port">TCP port</label>
-			<input type="number" id="tv_port" name="tv_port" min="1" max="65535" value="55000" placeholder="55000">
+			<input type="number" id="tv_port" name="tv_port" min="1" max="65535" placeholder="55000">
 		</div>
 
 		<div class="pure-control-group" title="Behavior when a single button corresponds to multiple key presses (e.g. a button to raise the volume 4 times): send each key in its own connection (more reliable, possibly slower); or send all keys through a single connection (less reliable, possibly faster)">
@@ -55,11 +55,13 @@
 	</fieldset>
 
 	<div class="pure-controls">
-		<input type="submit" value="Apply" class="pure-button pure-button-primary">
-		<input type="button" value="Close" class="pure-button">
+		<input type="submit" id="submit_button" value="Apply" class="pure-button pure-button-primary">
+		<input type="button" id="close_button" value="Close" class="pure-button">
 	</div>
 
 </form>
+
+<div id="toaster"></div>
 
 </body>
 </html>

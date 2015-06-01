@@ -2,13 +2,9 @@
 
 // This global var must be injected by the background page when creating this
 // window. It will be read by the functions here, but will not be modified.
+// See background.js for details.
 //
-// var TV_OPTS = {
-// 	'tv_ip': null,  // String.
-// 	'tv_port': 55000,  // Integer.
-// 	'unique_id': 'crx-ss',  // String.
-// 	'display_name': 'SS TV Remote'  // String.
-// };
+// var TV_OPTS = {};
 
 
 // Global vars with the current state.
@@ -348,9 +344,15 @@ function tvremote_key_click_handler(ev) {
 			keys[i] = keys[i].trim();
 		}
 
-		// TODO: Add an option to switch between single-connection or
-		// multiple-connections.
-		send_multiple_keys_single_connection(keys);
+		if (TV_OPTS.macro_behavior === 'multiple_connections') {
+			send_multiple_keys_multiple_connections(keys);
+		} else if (TV_OPTS.macro_behavior === 'single_connection') {
+			send_multiple_keys_single_connection(keys);
+		} else {
+			STATUS.error = '(Internal error) Unknown macro_behavior value: ' + TV_OPTS.macro_behavior;
+			console.error(STATUS.error);
+			update_status_ui();
+		}
 	}
 }
 
@@ -365,8 +367,8 @@ function open_options() {
 	});
 }
 
-// Inserts a ZWSP character in sensible places, to make the look better when
-// broken.
+// Inserts a ZWSP character in sensible places, to make the text look better
+// when broken.
 // https://en.wikipedia.org/wiki/Zero-width_space
 function insert_ZWSP(s) {
 	return s.replace(/(:+)/g, '$1\u200B').replace(/(_+|\.+)/g, '\u200B$1');

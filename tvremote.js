@@ -16,6 +16,7 @@ var STATUS = {
 	'error': null  // null, String
 };
 var RECV_CALLBACK = null;
+var IS_ALREADY_HANDLING_CLICK = false;
 
 // error is the error message string.
 function STATUS_reset(error) {
@@ -99,7 +100,7 @@ function disconnect(callback) {
 
 // Connects the socket.
 // Automatically disconnects any previous socket.
-function connect(callback) {
+function connect(callback, failure_callback) {
 	disconnect(function() {
 		// console.log('Starting up connection to ', TV_OPTS.tv_ip, TV_OPTS.tv_port);
 		easy_connect(TV_OPTS.tv_ip, TV_OPTS.tv_port, function(socketInfo, result) {
@@ -111,16 +112,18 @@ function connect(callback) {
 		}, function(socketInfo, result, message) {
 			console.error('Connection error: ', result, message);
 			STATUS_reset('Connection error: ' + message);
+			if (failure_callback) failure_callback();
 		});
 	});
 }
 
 
 // Sends a packet.
-function send(data, callback) {
+function send(data, callback, failure_callback) {
 	if (SOCKET_ID === null) {
 		//throw 'Programming error! Socket is not connected!';
 		// console.log('Not sending because there is no socket.');
+		if (failure_callback) failure_callback();
 		return;
 	}
 	// console.log('Sending a packet.');
@@ -131,6 +134,7 @@ function send(data, callback) {
 	}, function(result, message) {
 		console.error('Send error: ', result, message);
 		STATUS_reset('Send error: ' + message);
+		if (failure_callback) failure_callback();
 	});
 }
 
@@ -143,7 +147,7 @@ function on_receive_handler(info) {
 
 	var response = unpack_auth_response(info.data);
 	var auth_response = understand_auth_response(response);
-	// console.log('Received: ', info.socketId, response.header, response.magic_string, auth_response);
+	console.log('Received: ', info.socketId, response.header, response.magic_string, response.payload, auth_response);
 
 	if (response.header >= 0 && response.header <= 2) {
 		STATUS.connection_successful = true;
@@ -186,14 +190,14 @@ function on_receive_error_handler(info) {
 //////////////////////////////////////////////////////////////////////
 // High-level send-key functions.
 
-function send_key(key_code, callback) {
+function send_key(key_code, callback, failure_callback) {
 	connect(function() {
 		var auth_data = build_auth_packet(SELF_IP, TV_OPTS.unique_id, TV_OPTS.display_name);
 		send(auth_data, function() {
 			var key_packet = build_key_packet(key_code);
-			send(key_packet, callback);
-		});
-	});
+			send(key_packet, callback, failure_callback);
+		}, failure_callback);
+	}, failure_callback);
 }
 
 
@@ -201,6 +205,8 @@ function send_multiple_keys_single_connection(keys, callback) {
 	// Making a copy of the array, so that this function can make changes to
 	// the copied array without changing the original one.
 	var keys = keys.slice();
+
+	var failure_callback = callback;
 
 	function _send_multiple_keys_recursive() {
 		if (keys.length < 1) {
@@ -210,21 +216,21 @@ function send_multiple_keys_single_connection(keys, callback) {
 
 		var key = keys.shift();
 		var key_packet = build_key_packet(key);
-		send(key_packet, _send_multiple_keys_recursive);
+		send(key_packet, _send_multiple_keys_recursive, failure_callback);
 	}
 
 	connect(function() {
 		var auth_data = build_auth_packet(SELF_IP, TV_OPTS.unique_id, TV_OPTS.display_name);
-		send(auth_data, function() {
-			_send_multiple_keys_recursive();
-		});
-	});
+		send(auth_data, _send_multiple_keys_recursive, failure_callback);
+	}, failure_callback);
 }
 
 function send_multiple_keys_multiple_connections(keys, callback) {
 	// Making a copy of the array, so that this function can make changes to
 	// the copied array without changing the original one.
 	var keys = keys.slice();
+
+	var failure_callback = callback;
 
 	function _send_multiple_keys_recursive() {
 		if (keys.length < 1) {
@@ -233,7 +239,9 @@ function send_multiple_keys_multiple_connections(keys, callback) {
 		}
 
 		var key = keys.shift();
-		send_key(key, _send_multiple_keys_recursive);
+		send_key(key, function() {
+			setTimeout(_send_multiple_keys_recursive, 50);
+		}, failure_callback);
 	}
 	_send_multiple_keys_recursive();
 }
@@ -298,10 +306,18 @@ function build_layout(layout) {
 //////////////////////////////////////////////////////////////////////
 
 function tvremote_key_click_handler(ev) {
+	if (IS_ALREADY_HANDLING_CLICK) {
+		// Ideally, the clicks would be queued. But the easiest solution is to
+		// just ignore them.
+		return;
+	}
+
 	var key = ev.target.dataset.key;
 	if (key) {
 		ev.preventDefault();
 		ev.stopPropagation();
+
+		IS_ALREADY_HANDLING_CLICK = true;
 
 		// Splitting the comma-separated list. Also trimming the whitespace.
 		var keys = key.split(',');
@@ -311,9 +327,13 @@ function tvremote_key_click_handler(ev) {
 		}
 
 		if (TV_OPTS.macro_behavior === 'multiple_connections') {
-			send_multiple_keys_multiple_connections(keys);
+			send_multiple_keys_multiple_connections(keys, function() {
+				IS_ALREADY_HANDLING_CLICK = false;
+			});
 		} else if (TV_OPTS.macro_behavior === 'single_connection') {
-			send_multiple_keys_single_connection(keys);
+			send_multiple_keys_single_connection(keys, function() {
+				IS_ALREADY_HANDLING_CLICK = false;
+			});
 		} else {
 			STATUS.error = '(Internal error) Unknown macro_behavior value: ' + TV_OPTS.macro_behavior;
 			console.error(STATUS.error);

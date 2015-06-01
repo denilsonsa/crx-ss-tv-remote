@@ -171,7 +171,14 @@ function on_receive_error_handler(info) {
 	if (info.socketId != SOCKET_ID) {
 		return;
 	}
-	// console.log('Error received: ', info.socketId, info.resultCode);
+
+	if (info.resultCode == -100) {
+		// NET_CONNECTION_CLOSED, which is not an error.
+		disconnect();
+		return;
+	}
+
+	console.error('Error received: ', info.resultCode);
 	STATUS_reset('Error received: ' + info.resultCode);
 	disconnect();
 }
@@ -390,7 +397,7 @@ function update_status_ui() {
 			status_label.value = 'Ready.';
 		} else if (STATUS.access_granted === false) {
 			status_container.classList.add('red');
-			status_label.value = 'TV remote control was DENIED.';
+			status_label.value = 'TV remote control access was DENIED.';
 		} else {
 			status_container.classList.add('gray');
 			status_label.value = 'This should not happen.';
@@ -429,7 +436,7 @@ function init(tab_id, bgpage) {
 
 	// Handling TCP responses using the convoluted Chrome API.
 	chrome.sockets.tcp.onReceive.addListener(on_receive_handler);
-	chrome.sockets.tcp.onReceive.addListener(on_receive_error_handler);
+	chrome.sockets.tcp.onReceiveError.addListener(on_receive_error_handler);
 }
 
 // This script is being included with the "defer" attribute, which means it

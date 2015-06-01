@@ -241,59 +241,6 @@ function send_multiple_keys_multiple_connections(keys, callback) {
 //////////////////////////////////////////////////////////////////////
 // Layout stuff.
 
-var LAYOUT = {
-	"layout": "grid",
-	"fontSize": "8vmin",
-	"rows": [
-		{
-			"cells": [
-				{"key": "KEY_RED"   , "label": "A" , "color": "red"},
-				{"key": "KEY_GREEN" , "label": "B" , "color": "green"},
-				{"key": "KEY_YELLOW", "label": "C" , "color": "yellow"},
-				{"key": "KEY_CYAN"  , "label": "D" , "color": "cyan"},
-				{"key": ""          , "label": null, "color": null},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_MUTE"                                       , "label": "🔇"   , "color": null},
-				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "🔉 ×4", "color": "slateblue"},
-				{"key": "KEY_VOLDOWN"                                    , "label": "🔉"   , "color": "slateblue"},
-				{"key": "KEY_VOLUP"                                      , "label": "🔊"   , "color": "slateblue"},
-				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "🔊 ×4", "color": "slateblue"},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_TOOLS" , "label": "Tools" , "color": null},
-				{"key": "KEY_UP"    , "label": "↑"     , "color": "black"},
-				{"key": "KEY_INFO"  , "label": "Info"  , "color": null},
-				{"key": "KEY_MENU"  , "label": "Menu"  , "color": null},
-				{"key": "KEY_SOURCE", "label": "Source", "color": null},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_LEFT" , "label": "←", "color": "black"},
-				{"key": "KEY_ENTER", "label": "⏎", "color": "black"},
-				{"key": "KEY_RIGHT", "label": "→", "color": "black"},
-				{"key": "KEY_REC"  , "label": "⏺", "color": "rec"},
-				{"key": "KEY_PLAY" , "label": "▶", "color": null},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_RETURN", "label": "↶ Return", "color": null},
-				{"key": "KEY_DOWN"  , "label": "↓"       , "color": "black"},
-				{"key": "KEY_EXIT"  , "label": "Exit"    , "color": null},
-				{"key": "KEY_STOP"  , "label": "■"       , "color": null},
-				{"key": "KEY_PAUSE" , "label": "⏸"       , "color": null},
-			]
-		},
-	]
-};
-
-
 function create_button_grid_from_layout(layout) {
 	var section = document.createElement('section');
 	section.classList.add('tvremote', 'grid');
@@ -325,8 +272,8 @@ function create_button_grid_from_layout(layout) {
 			button.classList.add('cell', 'tvremotebutton');
 			divrow.appendChild(button);
 
-			if (cell.color) {
-				button.classList.add('color-' + cell.color);
+			if (cell.css) {
+				button.className += ' ' + cell.css;
 			}
 		}
 	}
@@ -413,13 +360,21 @@ function update_status_ui() {
 //////////////////////////////////////////////////////////////////////
 // Initialization.
 
+function build_layout(layout) {
+	var layout_container = document.getElementById('layout_container');
+
+	// Constructing the buttons.
+	layout_container.innerHTML = '';
+	layout_container.appendChild(create_button_grid_from_layout(layout));
+}
+
 function init(tab_id, bgpage) {
 	// Single click handler for all TV remote buttons.
 	var layout_container = document.getElementById('layout_container');
 	layout_container.addEventListener('click', tvremote_key_click_handler);
 
-	// Constructing the buttons.
-	layout_container.appendChild(create_button_grid_from_layout(LAYOUT));
+	// TODO: build_layout();
+	build_layout(BUILTIN_LAYOUTS[2]);
 
 	// Status indicator.
 	RECV_CALLBACK = update_status_ui;

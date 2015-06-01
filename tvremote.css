@@ -164,8 +164,9 @@ html {
 		rgba(  0,  0,  0,0.5) -1px -3px 3px 0px inset,
 		rgba(255,255,255,0.5)  1px  3px 3px 0px inset;
 }
-.tvremotebutton.color-rec {
-	color: hsl(0, 100%, 50%);
+.tvremotebutton.color-white {
+	color: black;
+	background: linear-gradient(to bottom, hsl(230, 0%, 90%), hsl(230, 0%, 75%));
 }
 .tvremotebutton.color-slateblue {
 	color: black;
@@ -190,6 +191,13 @@ html {
 .tvremotebutton.color-cyan {
 	color: white;
 	background: linear-gradient(to bottom, hsl(240, 50%, 46%), hsl(240, 50%, 33%));
+}
+.tvremotebutton.color-rec {
+	color: hsl(0, 100%, 50%);
+}
+
+.tvremotebutton.text-large {
+	font-size: 1.75em !important;
 }
 
 

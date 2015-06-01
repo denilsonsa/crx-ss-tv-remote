@@ -12,7 +12,7 @@ var BUILTIN_LAYOUTS = [
 		{
 			"cells": [
 				// In the future, we can use \u23FB for Power: http://unicodepowersymbol.com/
-				{"key": "KEY_POWER" , "label": "Power" , "css": "color-red"},
+				{"key": "KEY_POWEROFF" , "label": "Power" , "css": "color-red"},
 				{"key": "KEY_HDMI"  , "label": "HDMI"  , "css": null},
 				{"key": "KEY_SOURCE", "label": "Source", "css": null},
 			]
@@ -149,7 +149,7 @@ var BUILTIN_LAYOUTS = [
 				//{"key": "KEY_HDMI"  , "label": "HDMI"  , "css": null},
 				{"key": "KEY_SOURCE", "label": "Source"  , "css": null},
 				// In the future, we can use \u23FB for Power: http://unicodepowersymbol.com/
-				{"key": "KEY_POWER" , "label": "Power" , "css": "color-red"},
+				{"key": "KEY_POWEROFF" , "label": "Power" , "css": "color-red"},
 			]
 		},
 		{
@@ -201,7 +201,7 @@ var BUILTIN_LAYOUTS = [
 				{"key": "KEY_MENU", "label": "Menu", "css": null},
 
 				// In the future, we can use \u23FB for Power: http://unicodepowersymbol.com/
-				{"key": "KEY_POWER" , "label": "Power" , "css": "color-red"},
+				{"key": "KEY_POWEROFF" , "label": "Power" , "css": "color-red"},
 
 				{"key": ""          , "label": null, "css": null},
 			]

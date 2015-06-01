@@ -53,8 +53,6 @@ var PACKED_MAGIC_STRING = pack_string(MAGIC_STRING);
 var AuthResponse = {
 	GRANTED: 'GRANTED',
 	DENIED: 'DENIED',
-	WAITING: 'WAITING',
-	CLOSED: 'CLOSED',  // Timeout or cancelled.
 	UNKNOWN: 'UNKNOWN'
 };
 
@@ -113,11 +111,10 @@ function unpack_auth_response(bytes) {
 
 
 // Returns an AuthResponse value.
+// Note that the protocol has been reverse-engineered, but not all messages are
+// completely understood.
 function understand_auth_response(response) {
-	// response.header will be:
-	// 0x00 => Device was already known to the TV.
-	// 0x01 => Device has been just added to the TV.
-	// 0x02 => Device still unknown to the TV.
+	// The meaning of response.header is unknown.
 	if (response.header < 0x00 || response.header > 0x02) {
 		console.warn('Unknown header has been received: ', response.header);
 	}
@@ -132,9 +129,14 @@ function understand_auth_response(response) {
 	var known_payloads = [
 		[0x64, 0x00, 0x01, 0x00],  // GRANTED
 		[0x64, 0x00, 0x00, 0x00],  // DENIED
-		[0x0A, 0x00, 0x01, 0x00, 0x00, 0x00],  // The dialog has closed at the TV.
-		[0x0A, 0x00, 0x02, 0x00, 0x00, 0x00],  // Waiting, the dialog is open at the TV.
-		[0x0A, 0x00, 0x15, 0x00, 0x00, 0x00],  // The dialog has closed at the TV.
+		[0x0A, 0x00, 0x01, 0x00, 0x00, 0x00],  // A dialog has closed at the TV. Also received after some actions (such as KEY_PRECH).
+		[0x0A, 0x00, 0x02, 0x00, 0x00, 0x00],  // A dialog is open at the TV (e.g. permission request, source, tools, menu, contents).
+		[0x0A, 0x00, 0x03, 0x00, 0x00, 0x00],  // Unknown.
+		[0x0A, 0x00, 0x07, 0x00, 0x00, 0x00],  // Received after pressing KEY_PICTURE_SIZE).
+		[0x0A, 0x00, 0x15, 0x00, 0x00, 0x00],  // A dialog (which one?) has closed at the TV.
+		[0x0A, 0x00, 0x18, 0x00, 0x00, 0x00],  // A "channel" dialog (e.g. guide, ch list) is open at the TV.
+		[0x2C, 0x01, 0x00, 0x00],  // Permission has been deleted.
+		[0x2C, 0x01, 0x01, 0x00],  // Permission has been changed to DENIED.
 		[0x65, 0x00],  // CLOSED
 		[0x00, 0x00, 0x00, 0x00]  // CLOSED
 	];
@@ -150,6 +152,7 @@ function understand_auth_response(response) {
 		console.warn('Unknown payload has been received: ', payload);
 	}
 
+	// console.log(response.header, payload);
 	if (payload[0] == 0x64) {
 		if (payload[2] == 0x01) {
 			return AuthResponse.GRANTED;
@@ -157,9 +160,14 @@ function understand_auth_response(response) {
 			return AuthResponse.DENIED;
 		}
 	} else if (payload[0] == 0x0A) {
-		return AuthResponse.WAITING;
+		return AuthResponse.UNKNOWN;
+	} else if (payload[0] == 0x2C) {
+		if (payload[2] == 0x01) {
+			return AuthResponse.DENIED;
+		}
+		return AuthResponse.UNKNOWN;
 	} else if (payload[0] == 0x65 || payload[0] == 0x00) {
-		return AuthResponse.CLOSED;
+		return AuthResponse.UNKNOWN;
 	}
 	return AuthResponse.UNKNOWN;
 }

@@ -1,5 +1,8 @@
 'use strict';
 
+// Note: This JavaScript file is not being used, but it still serves as a
+// documentation of the possible keys.
+
 // http://openremote.org/display/docs/OpenRemote+2.0+How+To+-+Samsung+TV+Remote
 // http://wiki.samygo.tv/index.php5/D-Series_Key_Codes
 // http://wiki.samygo.tv/index.php5?title=Key_codes

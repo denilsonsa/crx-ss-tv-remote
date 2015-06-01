@@ -11,7 +11,7 @@
 var SOCKET_ID = null;
 var SELF_IP = null;
 var STATUS = {
-	'known_to_the_tv': null,  // null, true, false.
+	'connection_successful': null,  // null, true, false.
 	'access_granted': null,  // null, true, false.
 	'error': null  // null, String
 };
@@ -19,7 +19,7 @@ var RECV_CALLBACK = null;
 
 // error is the error message string.
 function STATUS_reset(error) {
-	STATUS.known_to_the_tv = null;
+	STATUS.connection_successful = null;
 	STATUS.access_granted = null;
 	STATUS.error = null;
 	if (error) {
@@ -145,24 +145,23 @@ function on_receive_handler(info) {
 	var auth_response = understand_auth_response(response);
 	// console.log('Received: ', info.socketId, response.header, response.magic_string, auth_response);
 
-	if (response.header == 2) {
-		STATUS.known_to_the_tv = false;
-		STATUS.access_granted = null;
-	} else {  // response.header is either 0 or 1.
-		STATUS.known_to_the_tv = true;
-		if (auth_response == AuthResponse.GRANTED) {
-			STATUS.access_granted = true;
-		} else if (auth_response == AuthResponse.DENIED) {
-			STATUS.access_granted = false;
-		}
+	if (response.header >= 0 && response.header <= 2) {
+		STATUS.connection_successful = true;
+	} else {
+		STATUS.connection_successful = false;
+	}
+
+	if (auth_response == AuthResponse.GRANTED) {
+		STATUS.access_granted = true;
+	} else if (auth_response == AuthResponse.DENIED) {
+		STATUS.access_granted = false;
 	}
 
 	if (RECV_CALLBACK) {
 		RECV_CALLBACK();
 	}
 
-	if (auth_response == AuthResponse.CLOSED
-	|| auth_response == AuthResponse.DENIED) {
+	if (auth_response == AuthResponse.DENIED) {
 		//disconnect();
 	}
 }
@@ -391,20 +390,20 @@ function update_status_ui() {
 	if (STATUS.error) {
 		status_container.classList.add('red');
 		status_label.value = insert_ZWSP(STATUS.error);
-	} else if (STATUS.known_to_the_tv === true) {
+	} else if (STATUS.connection_successful === true) {
 		if (STATUS.access_granted === true) {
 			status_container.classList.add('green');
-			status_label.value = 'Ready.';
+			status_label.value = 'Working correctly.';
 		} else if (STATUS.access_granted === false) {
 			status_container.classList.add('red');
 			status_label.value = 'TV remote control access was DENIED.';
 		} else {
-			status_container.classList.add('gray');
-			status_label.value = 'This should not happen.';
+			status_container.classList.add('yellow');
+			status_label.value = 'Connection to the TV is working.';
 		}
-	} else if (STATUS.known_to_the_tv === false) {
-		status_container.classList.add('yellow');
-		status_label.value = 'Connected, but not authorized.';
+	} else if (STATUS.connection_successful === false) {
+		status_container.classList.add('red');
+		status_label.value = 'Connection failed.';
 	} else {
 		status_container.classList.add('gray');
 		status_label.value = 'Not connected.';

@@ -47,7 +47,8 @@ function complete_options(input_options) {
 		'tv_port': 55000,
 		'unique_id': null,
 		'display_name': 'SS TV Remote',
-		'macro_behavior': 'multiple_connections'
+		'macro_behavior': 'multiple_connections',
+		'always_on_top': false
 	};
 	var ret = {};
 	for (var key in sane_defaults) {
@@ -62,6 +63,9 @@ function complete_options(input_options) {
 	if (!ret.tv_port || ret.tv_port < 1 || ret.tv_port > 65535) {
 		ret.tv_port = sane_defaults.tv_port;
 	}
+
+	// Converting to Boolean.
+	ret.always_on_top = !! ret.always_on_top;
 
 	// Random unique ID if none is saved.
 	if (!ret.unique_id) {
@@ -121,6 +125,7 @@ function update_tvremote_window_options() {
 		var win = chrome.app.window.get('tvremotewindow');
 		if (win) {
 			win.contentWindow.TV_OPTS = options;
+			win.setAlwaysOnTop(options.always_on_top);
 		}
 	});
 }
@@ -129,7 +134,7 @@ function open_tvremote_window() {
 	get_options_from_storage(function(options) {
 		chrome.app.window.create('tvremote.html', {
 			'id': 'tvremotewindow',  // An id will preserve the window size/position.
-			//'alwaysOnTop': false,
+			'alwaysOnTop': options.always_on_top,
 			//'visibleOnAllWorkspaces': false,
 			'frame': 'none',
 			'innerBounds': {

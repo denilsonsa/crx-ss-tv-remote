@@ -10,6 +10,7 @@ function set_form_values_from_options(options) {
 	form.unique_id.value = options.unique_id;
 	form.display_name.value = options.display_name;
 	form.macro_behavior.value = options.macro_behavior;
+	form.always_on_top.checked = options.always_on_top;
 
 	var submit_button = document.getElementById('submit_button');
 	submit_button.disabled = true;
@@ -40,6 +41,9 @@ function form_element_input_handler(ev) {
 		submit_button.disabled = false;
 	}
 }
+function form_element_change_handler(ev) {
+	submit_button.disabled = false;
+}
 
 function form_submit_handler(ev) {
 	if (ev) {
@@ -53,7 +57,8 @@ function form_submit_handler(ev) {
 		'tv_port': form.tv_port.value,
 		'unique_id': form.unique_id.value,
 		'display_name': form.display_name.value,
-		'macro_behavior': form.macro_behavior.value
+		'macro_behavior': form.macro_behavior.value,
+		'always_on_top': form.always_on_top.checked
 	}
 
 	chrome.runtime.getBackgroundPage(function(background) {
@@ -72,7 +77,11 @@ function form_submit_handler(ev) {
 function init() {
 	var form = document.getElementById('options_form');
 	form.addEventListener('submit', form_submit_handler);
+
+	// OnInput works for most form elements.
 	form.addEventListener('input', form_element_input_handler);
+	// OnChange is required for checkboxes (because they do not trigger onInput).
+	form.addEventListener('change', form_element_change_handler);
 
 	var close_button = document.getElementById('close_button');
 	close_button.addEventListener('click', function(ev) {

@@ -27,6 +27,7 @@
 	  }
   },
   "permissions": [
+	  "alwaysOnTopWindows",
 	  "contextMenus",
 	  "storage"
   ]

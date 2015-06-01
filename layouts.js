@@ -290,4 +290,13 @@ var BUILTIN_LAYOUTS = [
 			]
 		},
 	]
-} ];
+}
+];
+
+var LAYOUT_BY_ID = {};
+
+(function(){
+	for (var i = 0; i < BUILTIN_LAYOUTS.length; i++) {
+		LAYOUT_BY_ID[BUILTIN_LAYOUTS[i].id] = BUILTIN_LAYOUTS[i];
+	}
+})();

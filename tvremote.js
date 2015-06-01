@@ -373,8 +373,7 @@ function init(tab_id, bgpage) {
 	var layout_container = document.getElementById('layout_container');
 	layout_container.addEventListener('click', tvremote_key_click_handler);
 
-	// TODO: build_layout();
-	build_layout(BUILTIN_LAYOUTS[2]);
+	build_layout(LAYOUT);
 
 	// Status indicator.
 	RECV_CALLBACK = update_status_ui;

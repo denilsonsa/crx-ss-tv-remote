@@ -17,7 +17,7 @@
 
   "app": {
     "background": {
-		"scripts": [ "background.js" ]
+		"scripts": [ "layouts.js", "background.js" ]
     }
   },
 

@@ -49,7 +49,8 @@ function complete_options(input_options) {
 		'display_name': 'SS TV Remote',
 		'macro_behavior': 'multiple_connections',
 		'always_on_top': false,
-		'visible_on_all_workspaces': false
+		'visible_on_all_workspaces': false,
+		'layout_id': 'samsung5000'
 	};
 	var ret = {};
 	for (var key in sane_defaults) {
@@ -77,6 +78,10 @@ function complete_options(input_options) {
 	if (ret.macro_behavior != 'multiple_connections'
 	&& ret.macro_behavior != 'single_connection') {
 		ret.macro_behavior = sane_defaults.macro_behavior;
+	}
+
+	if (!LAYOUT_BY_ID[ret.layout_id] /* && ret.layout_id != 'custom' */) {
+		ret.layout_id = sane_defaults.layout_id;
 	}
 
 	return ret;
@@ -117,7 +122,7 @@ function open_options_window() {
 		'id': 'optionswindow',  // An id will preserve the window size/position.
 		'innerBounds': {
 			'width': 350,
-			'height': 250
+			'height': 300
 		}
 	});
 }
@@ -127,26 +132,45 @@ function update_tvremote_window_options() {
 		var win = chrome.app.window.get('tvremotewindow');
 		if (win) {
 			var should_reopen_window = false;
+			var should_rebuild_layout = false;
 
 			// Because: http://crbug.com/495039
 			if (win.contentWindow.TV_OPTS.visible_on_all_workspaces != options.visible_on_all_workspaces) {
 				should_reopen_window = true;
 			}
 
+			if (win.contentWindow.TV_OPTS.layout_id != options.layout_id) {
+				should_rebuild_layout = true;
+			}
+
 			if (should_reopen_window) {
 				win.close();
-				open_tvremote_window();
+				open_tvremote_window(function(createdWindow) {
+					if (should_rebuild_layout) {
+						var LAYOUT = LAYOUT_BY_ID[options.layout_id];
+						createdWindow.innerBounds.width = LAYOUT.defaultWinSize[0];
+						createdWindow.innerBounds.height = LAYOUT.defaultWinSize[1];
+					}
+				});
 			} else {
 				win.setAlwaysOnTop(options.always_on_top);
 				// Disabled because: http://crbug.com/495039
 				//win.setVisibleOnAllWorkspaces(options.visible_on_all_workspaces);
 				win.contentWindow.TV_OPTS = options;
+
+				if (should_rebuild_layout) {
+					var LAYOUT = LAYOUT_BY_ID[options.layout_id];
+					win.contentWindow.LAYOUT = LAYOUT
+					win.contentWindow.build_layout(LAYOUT);
+					win.innerBounds.width = LAYOUT.defaultWinSize[0];
+					win.innerBounds.height = LAYOUT.defaultWinSize[1];
+				}
 			}
 		}
 	});
 }
 
-function open_tvremote_window() {
+function open_tvremote_window(callback) {
 	get_options_from_storage(function(options) {
 		chrome.app.window.create('tvremote.html', {
 			'id': 'tvremotewindow',  // An id will preserve the window size/position.
@@ -154,11 +178,13 @@ function open_tvremote_window() {
 			'visibleOnAllWorkspaces': options.visible_on_all_workspaces,
 			'frame': 'none',
 			'innerBounds': {
-				'width': 200,
-				'height': 200
+				'width': LAYOUT_BY_ID[options.layout_id].defaultWinSize[0],
+				'height': LAYOUT_BY_ID[options.layout_id].defaultWinSize[1]
 			}
 		}, function(createdWindow) {
 			createdWindow.contentWindow.TV_OPTS = options;
+			createdWindow.contentWindow.LAYOUT = LAYOUT_BY_ID[options.layout_id];
+			if (callback) callback(createdWindow);
 		});
 	});
 }

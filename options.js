@@ -8,6 +8,7 @@ function set_form_values_from_options(options) {
 	form.tv_ip.value = options.tv_ip;
 	form.tv_port.value = options.tv_port;
 	form.unique_id.value = options.unique_id;
+	form.layout_id.value = options.layout_id;
 	form.display_name.value = options.display_name;
 	form.macro_behavior.value = options.macro_behavior;
 	form.always_on_top.checked = options.always_on_top;
@@ -57,6 +58,7 @@ function form_submit_handler(ev) {
 		'tv_ip': form.tv_ip.value,
 		'tv_port': form.tv_port.value,
 		'unique_id': form.unique_id.value,
+		'layout_id': form.layout_id.value,
 		'display_name': form.display_name.value,
 		'macro_behavior': form.macro_behavior.value,
 		'always_on_top': form.always_on_top.checked,
@@ -98,6 +100,16 @@ function init() {
 	}
 
 	chrome.runtime.getBackgroundPage(function(background) {
+		form.layout_id.innerHTML = '';
+		for (var i = 0; i < background.BUILTIN_LAYOUTS.length; i++) {
+			var option_elem = document.createElement('option');
+			option_elem.value = background.BUILTIN_LAYOUTS[i].id;
+			option_elem.textContent = background.BUILTIN_LAYOUTS[i].name;
+			option_elem.title = background.BUILTIN_LAYOUTS[i].description;
+			form.layout_id.appendChild(option_elem);
+		}
+
+		// Loading the options and updating the form values.
 		background.get_options_from_storage(set_form_values_from_options, function(message) {
 			console.error(message);
 			alert(message);

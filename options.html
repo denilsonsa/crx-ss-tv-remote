@@ -17,13 +17,20 @@
 		<legend>Basic settings</legend>
 
 		<div class="pure-control-group" title="IP address of your Samsung TV. It looks like this: '192.168.0.5'">
-            <label for="tv_ip">IP address of the TV</label>
+			<label for="tv_ip">IP address of the TV</label>
 			<input type="text" id="tv_ip" name="tv_ip" required pattern="(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])(\.(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])){3}" placeholder="">
 		</div>
+
 		<div class="pure-controls">
-            <label for="always_on_top" class="pure-checkbox" title="Keep the main TV remote window above all other windows?">
-                <input id="always_on_top" type="checkbox"> Window always-on-top
-            </label>
+			<label for="always_on_top" class="pure-checkbox" title="Keep the main TV remote window above all other windows?">
+				<input id="always_on_top" type="checkbox"> Window always-on-top
+			</label>
+		</div>
+
+		<div class="pure-controls">
+			<label for="visible_on_all_workspaces" class="pure-checkbox" title="Make the main TV remote window visible on all workspaces, also known as a &quot;sticky&quot; window." id="can_set_visible_on_all_workspaces">
+				<input id="visible_on_all_workspaces" type="checkbox"> Visible on all workspaces
+			</label>
 		</div>
 	</fieldset>
 
@@ -31,12 +38,12 @@
 		<legend>Advanced settings</legend>
 
 		<div class="pure-control-group" title="The name that will show up in your TV, at the list of authorized devices.">
-            <label for="display_name">Display name</label>
+			<label for="display_name">Display name</label>
 			<input type="text" id="display_name" name="display_name" placeholder="SS TV Remote">
 		</div>
 
 		<div class="pure-control-group" title="This ID identifies the remote control.">
-            <label for="unique_id">Unique ID</label>
+			<label for="unique_id">Unique ID</label>
 			<input type="text" id="unique_id" name="unique_id" placeholder="">
 		</div>
 	</fieldset>
@@ -45,7 +52,7 @@
 		<legend title="Should only be changed if you know what you are doing.">Under-the-hood settings</legend>
 
 		<div class="pure-control-group" title="Leave blank to use the default. There is no need to change this value. Really, just leave it blank.">
-            <label for="tv_port">TCP port</label>
+			<label for="tv_port">TCP port</label>
 			<input type="number" id="tv_port" name="tv_port" min="1" max="65535" placeholder="55000">
 		</div>
 

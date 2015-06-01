@@ -11,6 +11,7 @@ function set_form_values_from_options(options) {
 	form.display_name.value = options.display_name;
 	form.macro_behavior.value = options.macro_behavior;
 	form.always_on_top.checked = options.always_on_top;
+	form.visible_on_all_workspaces.checked = options.visible_on_all_workspaces;
 
 	var submit_button = document.getElementById('submit_button');
 	submit_button.disabled = true;
@@ -58,7 +59,8 @@ function form_submit_handler(ev) {
 		'unique_id': form.unique_id.value,
 		'display_name': form.display_name.value,
 		'macro_behavior': form.macro_behavior.value,
-		'always_on_top': form.always_on_top.checked
+		'always_on_top': form.always_on_top.checked,
+		'visible_on_all_workspaces': form.visible_on_all_workspaces.checked
 	}
 
 	chrome.runtime.getBackgroundPage(function(background) {
@@ -87,6 +89,13 @@ function init() {
 	close_button.addEventListener('click', function(ev) {
 		window.close();
 	});
+
+	if (!chrome.app.window.canSetVisibleOnAllWorkspaces()) {
+		var can_set_visible_on_all_workspaces = document.getElementById('can_set_visible_on_all_workspaces');
+		can_set_visible_on_all_workspaces.title = 'Not available on your platform.';
+		can_set_visible_on_all_workspaces.style.textDecoration = 'line-through';
+		form.visible_on_all_workspaces.disabled = true;
+	}
 
 	chrome.runtime.getBackgroundPage(function(background) {
 		background.get_options_from_storage(set_form_values_from_options, function(message) {

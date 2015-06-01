@@ -48,7 +48,8 @@ function complete_options(input_options) {
 		'unique_id': null,
 		'display_name': 'SS TV Remote',
 		'macro_behavior': 'multiple_connections',
-		'always_on_top': false
+		'always_on_top': false,
+		'visible_on_all_workspaces': false
 	};
 	var ret = {};
 	for (var key in sane_defaults) {
@@ -66,6 +67,7 @@ function complete_options(input_options) {
 
 	// Converting to Boolean.
 	ret.always_on_top = !! ret.always_on_top;
+	ret.visible_on_all_workspaces = !! ret.visible_on_all_workspaces;
 
 	// Random unique ID if none is saved.
 	if (!ret.unique_id) {
@@ -124,8 +126,22 @@ function update_tvremote_window_options() {
 	get_options_from_storage(function(options) {
 		var win = chrome.app.window.get('tvremotewindow');
 		if (win) {
-			win.contentWindow.TV_OPTS = options;
-			win.setAlwaysOnTop(options.always_on_top);
+			var should_reopen_window = false;
+
+			// Because: http://crbug.com/495039
+			if (win.contentWindow.TV_OPTS.visible_on_all_workspaces != options.visible_on_all_workspaces) {
+				should_reopen_window = true;
+			}
+
+			if (should_reopen_window) {
+				win.close();
+				open_tvremote_window();
+			} else {
+				win.setAlwaysOnTop(options.always_on_top);
+				// Disabled because: http://crbug.com/495039
+				//win.setVisibleOnAllWorkspaces(options.visible_on_all_workspaces);
+				win.contentWindow.TV_OPTS = options;
+			}
 		}
 	});
 }
@@ -135,7 +151,7 @@ function open_tvremote_window() {
 		chrome.app.window.create('tvremote.html', {
 			'id': 'tvremotewindow',  // An id will preserve the window size/position.
 			'alwaysOnTop': options.always_on_top,
-			//'visibleOnAllWorkspaces': false,
+			'visibleOnAllWorkspaces': options.visible_on_all_workspaces,
 			'frame': 'none',
 			'innerBounds': {
 				'width': 200,

@@ -6,7 +6,7 @@
   "description": "A TV remote control compatible with network-enabled Samsung TVs",
   "version": "1.0",
   "author": "Denilson Sá",
-  "minimum_chrome_version": "38",
+  "minimum_chrome_version": "42",
   "offline_enabled": false,
 
   "icons": {

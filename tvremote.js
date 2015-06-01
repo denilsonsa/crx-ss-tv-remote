@@ -281,6 +281,19 @@ function create_button_grid_from_layout(layout) {
 	return section;
 }
 
+function build_layout(layout) {
+	var layout_container = document.getElementById('layout_container');
+
+	// Constructing the buttons.
+	layout_container.innerHTML = '';
+
+	if (layout.layout == 'grid') {
+		layout_container.appendChild(create_button_grid_from_layout(layout));
+	} else {
+		alert('Invalid value: "layout": "' + layout.layout + '"');
+	}
+}
+
 
 //////////////////////////////////////////////////////////////////////
 
@@ -359,14 +372,6 @@ function update_status_ui() {
 
 //////////////////////////////////////////////////////////////////////
 // Initialization.
-
-function build_layout(layout) {
-	var layout_container = document.getElementById('layout_container');
-
-	// Constructing the buttons.
-	layout_container.innerHTML = '';
-	layout_container.appendChild(create_button_grid_from_layout(layout));
-}
 
 function init(tab_id, bgpage) {
 	// Single click handler for all TV remote buttons.

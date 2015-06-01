@@ -116,8 +116,13 @@ function open_options_window() {
 	});
 }
 
-function update_tvremote_window_options(options) {
-	// TODO: Implement this.
+function update_tvremote_window_options() {
+	get_options_from_storage(function(options) {
+		var win = chrome.app.window.get('tvremotewindow');
+		if (win) {
+			win.contentWindow.TV_OPTS = options;
+		}
+	});
 }
 
 function open_tvremote_window() {

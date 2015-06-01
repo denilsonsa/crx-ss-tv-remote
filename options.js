@@ -61,7 +61,7 @@ function form_submit_handler(ev) {
 			var submit_button = document.getElementById('submit_button');
 			submit_button.disabled = true;
 			show_toaster_message('Saved!', 5000);
-			// TODO: Update TV_OPTS variable at the main window.
+			background.update_tvremote_window_options();
 		}, function(message) {
 			console.error(message);
 			alert(message);

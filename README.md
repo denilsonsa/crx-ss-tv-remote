@@ -46,39 +46,43 @@ FAQ
 
 **Q:** Why does it require permission to *Exchange data with any computer on the local network or internet*?
 
-**A:** Because that's exactly what it does. See also the next questions.
+* Because that's exactly what it does. See also the next questions.
 
 **Q:** How does it work?
 
-**A:** Most modern Samsung TV can be connected to the network. Such TVs also implement a proprietary protocol to receive commands over the network, such protocol is used by Samsung mobile apps to let the user control the TV with a mobile phone. There is no official documentation on this protocol. The implementation in this project is based on the [reverse-engineering][protocol-1] [efforts by][protocol-2] [other people][protocol-3]. Not all payloads were previously documented, and I had to do some (minor?) reverse-engineering by myself to understand what they mean; but without an official documentation it is impossible to be sure I got the meaning right. The code has been written from scratch in JavaScript.
+* Most modern Samsung TV can be connected to the network. Such TVs also implement a proprietary protocol to receive commands over the network, such protocol is used by Samsung mobile apps to let the user control the TV with a mobile phone. There is no official documentation on this protocol. The implementation in this project is based on the [reverse-engineering][protocol-1] [efforts by][protocol-2] [other people][protocol-3]. Not all payloads were previously documented, and I had to do some (minor?) reverse-engineering by myself to understand what they mean; but without an official documentation it is impossible to be sure I got the meaning right. The code has been written from scratch in JavaScript.
 
 **Q:** Why is this packaged as a Chrome app? Couldn't it run directly from a web page in the browser?
 
-**A:** The protocol to communicate with Samsung TVs is proprietary, the remote control application must have access to a TCP socket to implement such protocol. A web page is restricted to HTTP requests, there is no support for sockets with arbitrary protocols. The so-called [WebSockets][websocket] are not a real socket: they have a specific protocol that is based on HTTP.
+* The protocol to communicate with Samsung TVs is proprietary, the remote control application must have access to a TCP socket to implement such protocol. A web page is restricted to HTTP requests, there is no support for sockets with arbitrary protocols. The so-called [WebSockets][websocket] are not a real socket: they have a specific protocol that is based on HTTP.
 
 **Q:** Why is it a Chrome app instead of a Chrome extension?
 
-**A:** Because [Chrome apps][chrome-apps] have access to [additional APIs][chrome-apps-apis] (such as [`chrome.sockets.tcp`][chrome-sockets-tcp]) that [are not available to Chrome extensions][chrome-extension-apis].
+* Because [Chrome apps][chrome-apps] have access to [additional APIs][chrome-apps-apis] (such as [`chrome.sockets.tcp`][chrome-sockets-tcp]) that [are not available to Chrome extensions][chrome-extension-apis].
 
 **Q:** But I want an icon on the Chrome toolbar!
 
-**A:** Chrome includes [APIs to let extensions/apps communicate with each other][chrome-messaging-external]. Thus, it should be possible to write a Chrome extension that handles the user interaction (i.e. shows the buttons to the user), but ends up calling a Chrome app to handle the protocol in the background. This split architecture (app + extension) requires more code to be written, as well as refactoring the current code. This is why it is not implemented (yet).
+* Chrome includes [APIs to let extensions/apps communicate with each other][chrome-messaging-external]. Thus, it should be possible to write a Chrome extension that handles the user interaction (i.e. shows the buttons to the user), but ends up calling a Chrome app to handle the protocol in the background. This split architecture (app + extension) requires more code to be written, as well as refactoring the current code. This is why it is not implemented (yet).
 
 **Q:** Why can't this remote control automatically detect the IP address of the TV?
 
-**A:** Because such feature is not implemented (yet). It will require studying how to implement it, and probably will require either implementing [UPnP][] or doing a network scan. And, of course, also building the user interface for such feature.
+* Because such feature is not implemented (yet). It will require studying how to implement it, and probably will require either implementing [UPnP][] or doing a network scan. And, of course, also building the user interface for such feature.
 
 **Q:** This remote control was working before, but now it is not working anymore!
 
-**A:** Check if the IP address of your TV has changed. You may want to set a fixed IP address for your TV (you can configure it at your router).
+* Check if the IP address of your TV has changed. You may want to set a fixed IP address for your TV (you can configure it at your router).
 
 **Q:** I don't like the existing button layouts, can I make one?
 
-**A:** For now, if you make a new layout, you have and submit it to this project and I have to deploy it to everyone. In the future, I want to allow custom layouts written by the user.
+* For now, if you make a new layout, you have and submit it to this project and I have to deploy it to everyone. In the future, I want to allow custom layouts written by the user.
 
 **Q:** Why is the window rectangular? I wish it had rounded corners. Or that it had the exact shape of the SVG drawing of the layout.
 
-**A:** Because [Chrome does not allow transparent windows][transparent-window].
+* Because [Chrome does not allow transparent windows][transparent-window].
+
+**Q:** This is awesome!
+
+* Thanks! If you are feeling generous, consider making a donation. You know, it is a virtual equivalent of "buying me a beer".
 
 
 Credits
@@ -90,7 +94,7 @@ Promotional images include public domain clipart by [hellocatfood][oc-mouse], [K
 
 The options window uses http://purecss.io/ as the base CSS.
 
-[cws]: TODO! GET LINK!
+[cws]: https://chrome.google.com/webstore/detail/npciacphlpgklgcjgiamnmfjipjdkacf
 [websocket]: https://en.wikipedia.org/wiki/WebSocket
 [chrome-apps]: https://developer.chrome.com/apps/about_apps
 [chrome-sockets-tcp]: https://developer.chrome.com/apps/sockets_tcp

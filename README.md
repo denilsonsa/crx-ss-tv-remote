@@ -17,6 +17,7 @@ Features
 * Macro support: a single button can send a sequence of key presses to the TV (e.g. raise the volume 4 times).
 * Option to keep the window always on top.
 * Option to display the window on all workspaces (on platforms that support it, i.e. anything but Windows).
+* Chrome sync: the options are saved in your Google account.
 * [Tabbing navigation][].
 
 
@@ -71,6 +72,10 @@ FAQ
 **Q:** This remote control was working before, but now it is not working anymore!
 
 * Check if the IP address of your TV has changed. You may want to set a fixed IP address for your TV (you can configure it at your router).
+
+**Q:** How do I authorize/revoke network remote controls?
+
+* At the TV, go to *Menu → System → Network Remote Control*.
 
 **Q:** I don't like the existing button layouts, can I make one?
 

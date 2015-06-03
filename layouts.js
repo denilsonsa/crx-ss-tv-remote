@@ -237,6 +237,28 @@ var BUILTIN_LAYOUTS = [
 	]
 },
 {
+	"id": "minimalistic",
+	"name": "Minimalistic",
+	"description": "Extremely minimalistic layout. Used as the main icon for this app.",
+	"layout": "grid",
+	"fontSize": "17vmin",
+	"defaultWinSize": [96, 96],
+	"rows": [
+		{
+			"cells": [
+				{"key": "KEY_VOLUP"  , "label": "🔊"  , "css": "text-large color-slateblue"},
+				{"key": "KEY_CHUP"   , "label": "CH+", "css": "color-slateblue"},
+			]
+		},
+		{
+			"cells": [
+				{"key": "KEY_VOLDOWN", "label": "🔉"  , "css": "text-large color-slateblue"},
+				{"key": "KEY_CHDOWN" , "label": "CH-", "css": "color-slateblue"},
+			]
+		},
+	]
+},
+{
 	"id": "sample_svg_layout",
 	"name": "Sample layout in SVG",
 	"description": "Demonstration of how to construct a layout using SVG.",

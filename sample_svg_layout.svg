@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns="http://www.w3.org/2000/svg"
+   version="1.0"
+   viewBox="0 0 481.43 1501.4"
+   >
+<style type="text/css"><![CDATA[
+text,
+tspan {
+    /* https://developer.mozilla.org/en-US/docs/Web/CSS/user-select */
+    /* http://caniuse.com/#feat=user-select-none */
+    /* https://css-tricks.com/almanac/properties/u/user-select/ */
+    -webkit-user-select: none;
+
+    cursor: default;
+}
+
+.body {
+    fill: #eeeeec;
+    stroke: #2e3436;
+    stroke-width: 10px;
+
+}
+.btn-dark {
+    fill: #2e3436;
+}
+.btn-light {
+    fill: #888a85;
+}
+
+/* Note: does not work if there is a transparent-clickable element. */
+/*
+.btn-dark:hover {
+    fill: #515C5F;
+}
+.btn-light:hover {
+    fill: #AEAFAC;
+}
+*/
+
+.label-white-path,
+.label-gray {
+    /* Ignoring clicks on labels that are drawn on top of a button. */
+    pointer-events: none;
+}
+.transparent-clickable {
+    stroke: none;
+    fill: none;
+    pointer-events: fill;
+}
+.label-white-path {
+    fill: none;
+    stroke: #eeeeec;
+    stroke-width: 10px;
+}
+.label-gray {
+    fill: #babdb6;
+    font-size: 64px;
+    font-family: "Arial", sans-serif;
+    font-weight: bold;
+    text-anchor: middle;
+
+    /* Still not supported in Inkscape: https://bugs.launchpad.net/inkscape/+bug/811862 */
+    dominant-baseline: central;
+}
+.label-black,
+.label-black-bold {
+    fill: black;
+    font-size: 32px;
+    font-family: "Arial", sans-serif;
+    text-anchor: middle;
+}
+.label-black-bold {
+    font-weight: bold;
+}
+]]></style>
+  <g transform="translate(-186.43 158.35)">
+    <path class="body" d="m 292.86,-153.35 268.57,0 c 56.19,0 101.43,45.24 101.43,101.43 0,560.06 -60,1288.5 -60,1288.5 0,56.2 -45.24,101.5 -101.43,101.5 l -148.57,0 c -56.19,0 -101.43,-45.3 -101.43,-101.5 0,0 -60,-774.24 -60,-1288.5 -0.04,-56.21 45.24,-101.45 101.43,-101.45 z" />
+
+    <circle class="btn-dark" data-key="KEY_1" cx="307.14" cy="433.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_2" cx="427.14" cy="433.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_3" cx="547.14" cy="433.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_4" cx="307.14" cy="553.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_5" cx="427.14" cy="553.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_6" cx="547.14" cy="553.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_7" cx="307.14" cy="673.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_8" cx="427.14" cy="673.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_9" cx="547.14" cy="673.79" r="40" />
+    <circle class="btn-dark" data-key="KEY_0" cx="427.14" cy="793.79" r="40" />
+
+    <text class="label-gray" x="307.14" y="433.79">1</text>
+    <text class="label-gray" x="427.14" y="433.79">2</text>
+    <text class="label-gray" x="547.14" y="433.79">3</text>
+    <text class="label-gray" x="307.14" y="553.79">4</text>
+    <text class="label-gray" x="427.14" y="553.79">5</text>
+    <text class="label-gray" x="547.14" y="553.79">6</text>
+    <text class="label-gray" x="307.14" y="673.79">7</text>
+    <text class="label-gray" x="427.14" y="673.79">8</text>
+    <text class="label-gray" x="547.14" y="673.79">9</text>
+    <text class="label-gray" x="427.14" y="793.79">0</text>
+
+    <circle class="btn-dark" data-key="KEY_POWEROFF" cx="307.14" cy="33.79" r="40" />
+    <circle class="btn-light" data-key="KEY_SOURCE" cx="547.14" cy="33.79" r="40" />
+    <circle class="btn-light" data-key="KEY_MUTE" cx="307.14" cy="243.79" r="25" />
+
+    <rect class="btn-dark" x="388.57" y="145.22" width="78.571" height="197.14" ry="21.429" rx="21.429" />
+    <rect class="btn-dark" x="507.14" y="145.22" width="78.571" height="197.14" ry="21.429" rx="21.429" />
+
+    <rect class="transparent-clickable" data-key="KEY_VOLUP"   x="388.57" y="145.22" width="78.571" height="98.57" ry="21.429" rx="21.429" />
+    <rect class="transparent-clickable" data-key="KEY_VOLDOWN" x="388.57" y="243.79" width="78.571" height="98.57" ry="21.429" rx="21.429" />
+    <rect class="transparent-clickable" data-key="KEY_CHUP"    x="507.14" y="145.22" width="78.571" height="98.57" ry="21.429" rx="21.429" />
+    <rect class="transparent-clickable" data-key="KEY_CHDOWN"  x="507.14" y="243.79" width="78.571" height="98.57" ry="21.429" rx="21.429" />
+
+    <path class="label-black" d="m 296.74,-36.603 c -6.84,-1.372 -11.6,-6.272 -13.09,-13.466 -0.87,-4.222 0.76,-10.088 3.82,-13.769 2.2,-2.647 7.83,-5.526 8.96,-4.586 1.07,0.889 0.41,1.791 -2.23,3.06 -4.57,2.189 -7.2,5.758 -7.92,10.732 -0.85,5.919 2.23,11.676 7.63,14.254 8.52,4.065 18.14,-1.588 19.13,-11.241 0.58,-5.691 -2.79,-11.362 -8.2,-13.817 -2.29,-1.039 -2.86,-1.708 -2.26,-2.634 0.51,-0.782 1.79,-0.584 4.33,0.669 2.57,1.263 5.79,4.473 7.12,7.097 4.15,8.188 0.72,18.449 -7.46,22.334 -3.33,1.578 -6.55,2.026 -9.83,1.367 z m 2.06,-19.162 c -0.46,-0.459 -0.54,-1.873 -0.54,-10.311 0,-8.437 0.08,-9.851 0.54,-10.311 0.66,-0.668 0.97,-0.668 1.64,0 0.46,0.46 0.53,1.874 0.53,10.311 0,8.438 -0.07,9.852 -0.53,10.311 -0.29,0.293 -0.66,0.533 -0.82,0.533 -0.16,0 -0.53,-0.24 -0.82,-0.533 z" />
+
+    <path class="label-white-path" d="m 527.76,198.79 19.17,-33.19 18.16,31.46" />
+    <path class="label-white-path" d="m 527.76,280.6 19.17,33.19 18.16,-31.46" />
+
+    <path class="label-white-path" d="m 402.86,257.01 50,0 0,-27.5 -50,27.5 z" />
+    <path class="label-white-path" d="M 427.86,207.38 l 0,-41.78 M 406.97,186.49 l 41.78,0" />
+    <path class="label-white-path" d="m 406.96,307.54 41.79,0" />
+
+    <text class="label-black" y="-34.814297" x="547.14868">SOURCE</text>
+    <text class="label-black" x="307.14868" y="196.47055">MUTE</text>
+    <text class="label-black-bold" y="1134.1813" x="430.60281">Sample SVG layout</text>
+  </g>
+  <metadata>
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license rdf:resource="http://creativecommons.org/licenses/publicdomain/" />
+        <dc:publisher>
+          <cc:Agent rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title></dc:title>
+        <dc:description>A generic remote control based on a drawing by AshKyd.</dc:description>
+        <dc:source>https://openclipart.org/detail/27349/remote-control-by-ashkyd-27349</dc:source>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>remote</rdf:li>
+            <rdf:li>remote control</rdf:li>
+            <rdf:li>television</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License rdf:about="http://creativecommons.org/licenses/publicdomain/">
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+</svg>

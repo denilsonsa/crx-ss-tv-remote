@@ -289,6 +289,26 @@ function create_button_grid_from_layout(layout) {
 	return section;
 }
 
+function create_svg_file_layout(layout) {
+	var section = document.createElement('section');
+	section.classList.add('tvremote', 'svgfile');
+
+	// It is necessary to insert the SVG code inline, otherwise it won't be
+	// possible to handle click events (at least not in a straight-forward
+	// way).
+	var request = new XMLHttpRequest();
+	request.onload = function() {
+		var raw = this.responseText;
+		raw = raw.replace(/^\s*<!DOCTYPE[^>]*>/i, '');
+		section.innerHTML = raw;
+	};
+	request.open('GET', layout.file, true);
+	request.overrideMimeType('text/plain; charset=utf8');
+	request.send();
+
+	return section;
+}
+
 function build_layout(layout) {
 	var layout_container = document.getElementById('layout_container');
 
@@ -297,6 +317,8 @@ function build_layout(layout) {
 
 	if (layout.layout == 'grid') {
 		layout_container.appendChild(create_button_grid_from_layout(layout));
+	} else if (layout.layout == 'svgfile') {
+		layout_container.appendChild(create_svg_file_layout(layout));
 	} else {
 		alert('Invalid value: "layout": "' + layout.layout + '"');
 	}

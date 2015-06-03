@@ -237,59 +237,12 @@ var BUILTIN_LAYOUTS = [
 	]
 },
 {
-	"id": "first",
-	"name": "Foobar",
-	"description": "First layout ever written.",
-	"layout": "grid",
-	"fontSize": "8vmin",
-	"defaultWinSize": [280, 180],
-	"rows": [
-		{
-			"cells": [
-				{"key": "KEY_RED"   , "label": "A" , "css": "color-red"},
-				{"key": "KEY_GREEN" , "label": "B" , "css": "color-green"},
-				{"key": "KEY_YELLOW", "label": "C" , "css": "color-yellow"},
-				{"key": "KEY_CYAN"  , "label": "D" , "css": "color-cyan"},
-				{"key": ""          , "label": null, "css": null},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_MUTE"                                       , "label": "🔇"   , "css": null},
-				{"key": "KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN,KEY_VOLDOWN", "label": "🔉 ×4", "css": "color-slateblue"},
-				{"key": "KEY_VOLDOWN"                                    , "label": "🔉"   , "css": "color-slateblue"},
-				{"key": "KEY_VOLUP"                                      , "label": "🔊"   , "css": "color-slateblue"},
-				{"key": "KEY_VOLUP,KEY_VOLUP,KEY_VOLUP,KEY_VOLUP"        , "label": "🔊 ×4", "css": "color-slateblue"},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_TOOLS" , "label": "Tools" , "css": null},
-				{"key": "KEY_UP"    , "label": "↑"     , "css": "color-black"},
-				{"key": "KEY_INFO"  , "label": "Info"  , "css": null},
-				{"key": "KEY_MENU"  , "label": "Menu"  , "css": null},
-				{"key": "KEY_SOURCE", "label": "Source", "css": null},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_LEFT" , "label": "←", "css": "color-black"},
-				{"key": "KEY_ENTER", "label": "⏎", "css": "color-black"},
-				{"key": "KEY_RIGHT", "label": "→", "css": "color-black"},
-				{"key": "KEY_REC"  , "label": "⏺", "css": "color-rec"},
-				{"key": "KEY_PLAY" , "label": "▶", "css": null},
-			]
-		},
-		{
-			"cells": [
-				{"key": "KEY_RETURN", "label": "↶ Return", "css": null},
-				{"key": "KEY_DOWN"  , "label": "↓"       , "css": "color-black"},
-				{"key": "KEY_EXIT"  , "label": "Exit"    , "css": null},
-				{"key": "KEY_STOP"  , "label": "■"       , "css": null},
-				{"key": "KEY_PAUSE" , "label": "⏸"       , "css": null},
-			]
-		},
-	]
+	"id": "sample_svg_layout",
+	"name": "Sample layout in SVG",
+	"description": "Demonstration of how to construct a layout using SVG.",
+	"layout": "svgfile",
+	"file": "sample_svg_layout.svg",
+	"defaultWinSize": [225, 701]
 }
 ];
 

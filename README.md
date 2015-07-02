@@ -3,7 +3,7 @@ SS TV Remote (Chrome app)
 
 [![Donate using PayPal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=denilsonsa%40gmail%2ecom&lc=US&item_name=Denilson&item_number=crx-ss-tv-remote&currency_code=BRL) [![Flattr this project](https://api.flattr.com/button/flattr-badge-large.png)](https://flattr.com/submit/auto?user_id=denilsonsa&url=https%3A%2F%2Fgithub.com%2Fdenilsonsa%2Fcrx-ss-tv-remote&title=crx-ss-tv-remote&description=A+remote+control+for+Samsung+TVs.&tags=github&category=software)
 
-Chrome app to control a Samsung TV over LAN/Wi-Fi. Should work on most modern Samsung TVs (those that are either plasma, LCD or LED, and were manufactured around 2010 or later) that are connected to the network. [Get it on Chrome Web Store!][cws]
+Chrome app to control a Samsung TV over LAN/Wi-Fi. Should work on most modern Samsung TVs (those that are either plasma, LCD or LED, and were manufactured around 2010 or later) that are connected to the network. [Get it on Chrome Web Store][cws], or [watch a short video on how it works][video].
 
 [![Promotional image showing a laptop and a TV](./misc/promotional_small_tile.png)][cws]
 
@@ -100,6 +100,7 @@ Promotional images include public domain clipart by [hellocatfood][oc-mouse], [K
 The options window uses http://purecss.io/ as the base CSS.
 
 [cws]: https://chrome.google.com/webstore/detail/npciacphlpgklgcjgiamnmfjipjdkacf
+[video]: https://www.youtube.com/watch?v=WeMMDdYHsIk
 [websocket]: https://en.wikipedia.org/wiki/WebSocket
 [chrome-apps]: https://developer.chrome.com/apps/about_apps
 [chrome-sockets-tcp]: https://developer.chrome.com/apps/sockets_tcp
